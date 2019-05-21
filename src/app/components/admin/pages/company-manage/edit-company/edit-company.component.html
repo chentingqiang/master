@@ -1,0 +1,145 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left">编辑企业</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef1.hide()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <table class="table-condensed text-right table-bordered" width="100%">
+        <tr>
+            <td class="edit-label">
+                <label for="companyName"> <i class="icons-red">*</i> 企业名称：</label>
+            </td>
+            <td class="edit-input text-center">
+                <!-- <input nz-input [(ngModel)]="lists.companyName" id="companyName" name="companyName" disabled> -->
+                <span class="static-td">{{lists.companyName}}</span>
+            </td>
+            <td class="edit-label">
+                <label><i class="icons-red">*</i>是否为运营公司？</label>
+            </td>
+            <td class="edit-input text-center">
+                <nz-radio-group [(ngModel)]="lists.type" style="line-height: 34px;">
+                    <label *ngFor="let item of optList" nz-radio [nzValue]="item.id">{{item.name}}</label>
+                </nz-radio-group>
+            </td>
+        </tr>
+        <tr>
+            <td><label><i class="icons-red">*</i>企业角色：</label></td>
+            <td colspan="3" class="text-center">
+                <nz-checkbox-group [(ngModel)]="roleList" name="add_role" style="line-height: 34px;">
+                </nz-checkbox-group>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="accounts"><i class="icons-red">*</i>登录账号：</label>
+            </td>
+            <td class="text-center">
+                <!-- <input nz-input [(ngModel)]="lists.principal.account" id="accounts" name="accounts" disabled> -->
+                <span class="static-td">{{lists.principal.account}}</span>
+            </td>
+            <td colspan="2"></td>
+        </tr>
+        <tr>
+            <td>
+                <label for="names"><i class="icons-red">*</i>负责人姓名：</label>
+            </td>
+            <td class="text-center">
+                <!-- <input nz-input [(ngModel)]="lists.principal.name" id="names" name="names" disabled> -->
+                <span class="static-td">{{lists.principal.name}}</span>
+            </td>
+            <td>
+                <label for="telephone"><i class="icons-red">*</i>负责人电话：</label>
+            </td>
+            <td class="text-center">
+                <!-- <input nz-input [(ngModel)]="lists.principal.telephone" id="telephone" name="telephone" disabled> -->
+                <span class="static-td">{{lists.principal.telephone}}</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="email"><i class="icons-red">*</i>负责人邮箱：</label>
+            </td>
+            <td class="text-center">
+                <!-- <input nz-input [(ngModel)]="lists.principal.email" id="email" name="email" disabled> -->
+                <span class="static-td">{{lists.principal.email}}</span>
+            </td>
+            <td colspan="2"></td>
+        </tr>
+        <tr>
+            <td>
+                <label for="province_id"><i class="icons-red">*</i>省份：</label>
+            </td>
+            <td>
+                <nz-select [(ngModel)]="lists.province.areaid" name="province_id" id="province_id" nzPlaceHolder="请选择省份"
+                    nzShowSearch style="width: 100%;" (ngModelChange)="selectProvince($event)">
+                    <nz-option *ngFor="let item of provinceList" [nzLabel]="item.areaname" [nzValue]="item.areaid">
+                    </nz-option>
+                </nz-select>
+            </td>
+            <td>
+                <label for="city_id"><i class="icons-red">*</i>市/县：</label>
+            </td>
+            <td>
+                <nz-select [(ngModel)]="lists.city.areaid" name="city_id" id="city_id" nzPlaceHolder="请选择市/县"
+                    nzShowSearch style="width: 100%;">
+                    <nz-option *ngFor="let item of cityList" [nzLabel]="item.areaname" [nzValue]="item.areaid">
+                    </nz-option>
+                </nz-select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="address"><i class="icons-red">*</i>详细地址：</label>
+            </td>
+            <td colspan="3">
+                <input nz-input [(ngModel)]="lists.address" id="address" name="address" placeholder="请输入详细地址">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="bankName"><i class="icons-red">*</i>开户银行：</label>
+            </td>
+            <td class="text-center">
+                <!-- <input nz-input [(ngModel)]="lists.bankName" id="bankName" name="bankName" disabled> -->
+                <span class="static-td">{{lists.bankName}}</span>
+            </td>
+            <td>
+                <label for="bankCard"><i class="icons-red">*</i>银行账号：</label>
+            </td>
+            <td class="text-center">
+                <!-- <input nz-input [(ngModel)]="lists.bankCard" id="bankCard" name="bankCard" disabled> -->
+                <span class="static-td">{{lists.bankCard}}</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="alipayId">支付宝账号：</label>
+            </td>
+            <td class="text-center">
+                <!-- <input nz-input [(ngModel)]="lists.alipayId" id="alipayId" name="alipayId" disabled> -->
+                <span class="static-td">{{lists.alipayId}}</span>
+            </td>
+            <td>
+                <label for="weixinId">微信账号：</label>
+            </td>
+            <td class="text-center">
+                <!-- <input nz-input [(ngModel)]="lists.weixinId" id="weixinId" name="weixinId" disabled> -->
+                <span class="static-td">{{lists.weixinId}}</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="scloudpayId">云闪付账号：</label>
+            </td>
+            <td class="text-center">
+                <!-- <input nz-input [(ngModel)]="lists.scloudpayId" id="scloudpayId" name="scloudpayId" disabled> -->
+                <span class="static-td">{{lists.scloudpayId}}</span>
+            </td>
+            <td colspan="2"></td>
+        </tr>
+    </table>
+</div>
+<div class="modal-footer btn_center">
+    <button type="button" class="btn btn-primary" (click)="commit()">修改</button>
+</div>

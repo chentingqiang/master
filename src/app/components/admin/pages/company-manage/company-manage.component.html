@@ -1,0 +1,189 @@
+<app-header></app-header>
+<!-- Main content -->
+<section class="content">
+    <div class="box box-white">
+        <div class="box-body box-body-grey">
+            <div class="search-wraper">
+                <form nz-form>
+                    <div nz-row [nzGutter]="24">
+                        <div nz-col nzSpan="6">
+                            <nz-form-item>
+                                <nz-form-label nzFor="nums" nzSpan="6">企业编号</nz-form-label>
+                                <nz-form-control nzSpan="18">
+                                    <input nz-input [(ngModel)]="commonService.nums" id="nums" name="nums"
+                                        placeholder="请输入企业编号">
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                        <div nz-col nzSpan="6">
+                            <nz-form-item>
+                                <nz-form-label nzFor="account" nzSpan="6">账户名称</nz-form-label>
+                                <nz-form-control nzSpan="18">
+                                    <input nz-input [(ngModel)]="commonService.account" id="account" name="account"
+                                        placeholder="请输入账户名称">
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                        <div nz-col nzSpan="6">
+                            <nz-form-item>
+                                <nz-form-label nzFor="cname" nzSpan="6">企业名称</nz-form-label>
+                                <nz-form-control nzSpan="18">
+                                    <input nz-input [(ngModel)]="commonService.name" id="cname" name="cname"
+                                        placeholder="请输入企业名称">
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                        <div nz-col nzSpan="6">
+                            <nz-form-item>
+                                <nz-form-label nzSpan="6">企业角色</nz-form-label>
+                                <nz-form-control nzSpan="18">
+                                    <nz-select style="width: 100%;" [(ngModel)]="commonService.role" name="role"
+                                        nzPlaceHolder="请选择企业角色" nzAllowClear nzShowSearch>
+                                        <nz-option *ngFor="let item of commonService.roleList"
+                                            [nzLabel]="item.companyRoleName" [nzValue]="item.id">
+                                        </nz-option>
+                                    </nz-select>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                        <div nz-col nzSpan="6">
+                            <nz-form-item>
+                                <nz-form-label nzSpan="6">省份</nz-form-label>
+                                <nz-form-control nzSpan="18">
+                                    <nz-select style="width: 100%;" [(ngModel)]="commonService.province_id"
+                                        (ngModelChange)="selectProvince($event)" name="province_id"
+                                        nzPlaceHolder="请选择省份" nzAllowClear nzShowSearch>
+                                        <nz-option *ngFor="let item of commonService.provinceList"
+                                            [nzLabel]="item.areaname" [nzValue]="item.areaid">
+                                        </nz-option>
+                                    </nz-select>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                        <div nz-col nzSpan="6">
+                            <nz-form-item>
+                                <nz-form-label nzSpan="6">市县</nz-form-label>
+                                <nz-form-control nzSpan="18">
+                                    <nz-select style="width: 100%;" [(ngModel)]="commonService.city_id" name="city_id"
+                                        nzPlaceHolder="请选择市县" nzAllowClear nzShowSearch>
+                                        <nz-option *ngFor="let item of commonService.cityList" [nzLabel]="item.areaname"
+                                            [nzValue]="item.areaid">
+                                        </nz-option>
+                                    </nz-select>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                        <div nz-col nzSpan="6">
+                            <nz-form-item>
+                                <nz-form-label nzSpan="6">起始时间</nz-form-label>
+                                <nz-form-control nzSpan="18">
+                                    <nz-date-picker [(ngModel)]="commonService.startTime" name="startTime"
+                                        nzPlaceHolder="请选择起始时间"></nz-date-picker>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                        <div nz-col nzSpan="6">
+                            <nz-form-item>
+                                <nz-form-label nzSpan="6">结束时间</nz-form-label>
+                                <nz-form-control nzSpan="18">
+                                    <nz-date-picker [(ngModel)]="commonService.endTime" name="endTime"
+                                        nzPlaceHolder="请选择结束时间"></nz-date-picker>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                        <div nz-col nzSpan="6">
+                            <nz-form-item>
+                                <nz-form-label nzFor="contact" nzSpan="6">联系人</nz-form-label>
+                                <nz-form-control nzSpan="18">
+                                    <input nz-input [(ngModel)]="commonService.contact" id="contact" name="contact"
+                                        placeholder="请输入联系人">
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                        <div nz-col nzSpan="6">
+                            <nz-form-item>
+                                <nz-form-label nzFor="tel" nzSpan="6">电话</nz-form-label>
+                                <nz-form-control nzSpan="18">
+                                    <input nz-input [(ngModel)]="commonService.tel" id="tel" name="tel"
+                                        placeholder="请输入电话">
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                    </div>
+                    <div nz-row>
+                        <div nz-col [nzSpan]="24" style="text-align: right;">
+                            <button nz-button nzType="default" (click)="searchCompany()"><i nz-icon
+                                    type="search"></i>查询</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="box box-primary">
+        <div class="box-header with-border">
+            <h4 class="box-title">企业列表</h4>
+            <div class="pull-right">
+                <button nz-button type="button" nzType="primary" (click)="addCompany()"><span
+                        class="glyphicon glyphicon-plus icon-sty"></span>新增</button>
+            </div>
+        </div>
+        <div class="box-body">
+            <div class="">
+                <nz-table #nzTable [nzData]="commonService.companyList" [nzLoading]="commonService.load.loading1"
+                    [(nzPageIndex)]="commonService.pagenation.page" [nzTotal]="commonService.pagenation.total"
+                    nzShowSizeChanger [(nzPageSize)]="commonService.pagenation.size"
+                    (nzPageIndexChange)="searchCompany()" (nzPageSizeChange)="searchCompany()" nzBordered="true">
+                    <thead>
+                        <tr>
+                            <th nzAlign="center">企业编号</th>
+                            <th nzAlign="center">账户名称</th>
+                            <th nzAlign="center">企业名称</th>
+                            <th nzAlign="center">角色</th>
+                            <th nzAlign="center">省份</th>
+                            <th nzAlign="center">市县</th>
+                            <th nzAlign="center">联系人</th>
+                            <th nzAlign="center">电话</th>
+                            <th nzAlign="center">邮箱</th>
+                            <th nzAlign="center">注册时间</th>
+                            <th nzAlign="center">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of nzTable.data">
+                            <td nzAlign="center">{{item.id}}</td>
+                            <td nzAlign="center">{{item.principal.account}}</td>
+                            <td nzAlign="center">{{item.companyName}}</td>
+                            <td nzAlign="center">{{item.companyRoleName}}</td>
+                            <td nzAlign="center">{{item.province.areaname}}</td>
+                            <td nzAlign="center">{{item.city.areaname}}</td>
+                            <td nzAlign="center">{{item.principal.name}}</td>
+                            <td nzAlign="center">{{item.principal.telephone}}</td>
+                            <td nzAlign="center">{{item.principal.email}}</td>
+                            <td nzAlign="center">{{item.createTime}}</td>
+                            <td nzAlign="center">
+                                <a (click)="viewCompany(item)">查看</a>
+                                <nz-divider nzType="vertical"></nz-divider>
+                                <a (click)="editCompany(item)">编辑</a>
+                                <nz-divider nzType="vertical"></nz-divider>
+                                <nz-popconfirm nzTitle="确定吗？" (nzOnConfirm)="deleteCompany(item.id)">
+                                    <a nz-popconfirm>删除</a>
+                                </nz-popconfirm>
+                            </td>
+                        </tr>
+                    </tbody>
+                </nz-table>
+            </div>
+        </div>
+        <!-- /.box-body -->
+        <!-- <div class="box-footer text-center">
+            <nz-pagination [(nzPageIndex)]="commonService.pagenation.page" [nzTotal]="commonService.pagenation.total"
+                nzShowSizeChanger [(nzPageSize)]="commonService.pagenation.size" (nzPageIndexChange)="searchCompany()"
+                (nzPageSizeChange)="searchCompany()">
+            </nz-pagination>
+        </div> -->
+        <!-- /.box-footer-->
+    </div>
+    <!-- /.box -->
+</section>
+<!-- /.content -->

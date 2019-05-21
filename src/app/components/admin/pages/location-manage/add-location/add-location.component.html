@@ -1,0 +1,52 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">库位新增</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body text-center" *ngIf="!loadedFlag">
+  <div class="loading-wrapper">
+    <nz-spin [nzTip]="'Loading...'" nzSimple></nz-spin>
+  </div>
+</div>
+<div class="modal-body" *ngIf="loadedFlag">
+  <table class="table text-right" id="search-head">
+    <tr>
+      <td class="wid-fix2"><label for="locationNumber">库位编号：</label></td>
+      <td> <input type="text" class="form-control" id="locationNumber" placeholder="" [(ngModel)]="locationNumber"
+          name="locationNumber"></td>
+    </tr>
+    <tr>
+      <td><label for="locationName">库位名称：</label></td>
+      <td><input type="text" class="form-control" id="locationName" placeholder="" [(ngModel)]="locationName"
+          name="locationName"></td>
+    </tr>
+    <tr>
+      <td><label for="locationType">库位类型：</label></td>
+      <td>
+        <select class="form-control" id="locationType" [(ngModel)]="locationType" name="locationType">
+          <option value="" disabled>请选择</option>
+          <option value="{{item.code}}" *ngFor="let item of locationTypeList">{{item.name}}</option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <label for="warehouseId">仓库名称：</label>
+      </td>
+      <td>
+        <select class="form-control" id="warehouseId" [(ngModel)]="warehouseId" name="warehouseId">
+          <option value="" disabled>请选择</option>
+          <option value="{{item.id}}" *ngFor="let item of stockList">{{item.name}}</option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td><label for="remark">备注：</label></td>
+      <td><input type="text" class="form-control" id="remark" placeholder="" [(ngModel)]="remark" name="remark"></td>
+    </tr>
+  </table>
+</div>
+<div class="modal-footer btn_center">
+  <button type="button" class="btn btn-primary" (click)="addLocation()">提交</button>
+</div>

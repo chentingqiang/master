@@ -1,0 +1,70 @@
+<div class="modal-header" backdrop='static'>
+    <h4 class="modal-title pull-left">企业信息</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <table class="table table-bordered">
+        <tr>
+            <td class="t_label"><label>企业名称：</label></td>
+            <td class="text-left"><span>{{list.companyName}}</span></td>
+        </tr>
+        <tr>
+            <td class="t_label"><label>运营公司？</label></td>
+            <td class="text-left"><span>{{optMap.get(list.type)}}</span></td>
+        </tr>
+        <tr>
+            <td class="t_label"><label>角色：</label></td>
+            <td class="text-left"><span>{{list.companyRoleName}}</span></td>
+        </tr>
+        <tr>
+            <td class="t_label"><label>登录账号：</label></td>
+            <td class="text-left"><span>{{list.principal.account}}</span></td>
+        </tr>
+        <tr>
+            <td class="t_label"><label>负责人姓名：</label></td>
+            <td class="text-left"><span>{{list.principal.name}}</span></td>
+        </tr>
+        <tr>
+            <td class="t_label"><label>负责人电话：</label></td>
+            <td class="text-left"><span>{{list.principal.telephone}}</span></td>
+        </tr>
+        <tr>
+            <td class="t_label"><label>负责人邮箱：</label></td>
+            <td class="text-left"><span>{{list.principal.email}}</span></td>
+        </tr>
+        <tr>
+            <td class="t_label"><label>企业地址：</label></td>
+            <td class="text-left"><span>{{list.province.areaname}}(省){{list.city.areaname}}(市)</span></td>
+        </tr>
+        <tr>
+            <td class="t_label"><label>详细地址：</label></td>
+            <td class="text-left"><span>{{list.address}}</span></td>
+        </tr>
+        <tr>
+            <td class="t_label"><label>开户银行：</label></td>
+            <td class="text-left"><span>{{list.bankName}}</span></td>
+        </tr>
+        <tr>
+            <td class="t_label"><label>银行账号：</label></td>
+            <td class="text-left"><span>{{list.bankCard}}</span></td>
+        </tr>
+        <tr>
+            <td class="t_label"><label>支付宝账号：</label></td>
+            <td class="text-left"><span>{{list.alipayId}}</span></td>
+        </tr>
+        <tr>
+            <td class="t_label"><label>微信账号：</label></td>
+            <td class="text-left"><span>{{list.weixinId}}</span></td>
+        </tr>
+        <tr>
+            <td class="t_label"><label>云闪付账号：</label></td>
+            <td class="text-left"><span>{{list.scloudpayId}}</span></td>
+        </tr>
+    </table>
+</div>
+<div class="modal-footer">
+    <!-- <button class="btn btn-danger" type="button" (click)="delete(confirmtemplate)">删除</button> -->
+    <!-- <button class="btn btn-primary" type="button" (click)="print()">打印</button> -->
+</div>

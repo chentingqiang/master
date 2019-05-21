@@ -1,0 +1,61 @@
+<nz-layout style="height:100vh" id="layout">
+  <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTheme]="'dark'" nzWidth="240"
+    style="overflow: auto; height: 100%; position: fixed; left: 0">
+    <div class="logo">
+      <!-- <img src="./assets/logo/banma-logo-180-180.png" alt="" class="logoImg"> -->
+      <img [hidden]="!isCollapsed" src="./assets/logo/200-200.png" alt="" class="logoImg1">
+      <div [hidden]="isCollapsed" class="logoUncollapse">
+        <img src="./assets/logo/logo-87-87.png" alt="" class="logoImg2">
+        <span>仓储管理系统</span>
+      </div>
+    </div>
+    <ul nz-menu [nzMode]="'inline'" [nzTheme]="'dark'" [nzInlineCollapsed]="isCollapsed">
+      <ng-container *ngTemplateOutlet="menuTpl; context: { $implicit: menus }"></ng-container>
+      <ng-template #menuTpl let-menus>
+        <ng-container *ngFor="let menu of menus">
+          <li nz-menu-item [nzPaddingLeft]="menu.level * 24" *ngIf="(!menu.childMenus) && menu.parentId == 0">
+            <span title>
+              <i nz-icon [type]="menu.icon" *ngIf="menu.icon"></i>
+              <span>{{ menu.menuName }}</span>
+            </span>
+          </li>
+          <li nz-menu-item [nzPaddingLeft]="menu.level * 24" *ngIf="(!menu.childMenus) && menu.parentId != 0"
+            routerLink="{{menu.urlPath}}">
+            <span title>
+              <i nz-icon [type]="menu.icon" *ngIf="menu.icon"></i>
+              <span>{{ menu.menuName }}</span>
+            </span>
+          </li>
+          <li nz-submenu [nzPaddingLeft]="menu.level * 24" *ngIf="menu.childMenus">
+            <span title>
+              <i nz-icon [type]="menu.icon" *ngIf="menu.icon"></i>
+              <span>{{ menu.menuName }}</span>
+            </span>
+            <ul>
+              <ng-container *ngTemplateOutlet="menuTpl; context: { $implicit: menu.childMenus }"></ng-container>
+            </ul>
+          </li>
+        </ng-container>
+      </ng-template>
+    </ul>
+  </nz-sider>
+  <nz-layout style="height: 100vh;transition: all 0.2s" [ngStyle]="{'margin-left': !isCollapsed?'240px':'80px'}">
+    <nz-header style="background: rgb(60,141,188); padding:0;box-shadow: 0 1px 4px rgba(0,21,41,0.8);">
+      <i class="trigger" nz-icon [type]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+        (click)="isCollapsed = !isCollapsed"></i>
+      <nz-dropdown nzPlacement="bottomRight" style="float: right;">
+        <span nz-dropdown class="username">
+          <img [src]="imgUrl" alt="">
+          <span>{{username}}</span>
+        </span>
+        <ul nz-menu>
+          <li nz-menu-item (click)="loginOut()"><a><i nz-icon type="logout" style="margin-right:10px;"></i>退出登录</a></li>
+        </ul>
+      </nz-dropdown>
+    </nz-header>
+    <nz-content style="height: 100vh;">
+      <router-outlet></router-outlet>
+    </nz-content>
+    <!-- <nz-footer style="text-align: center;height: 64px;">Ant Design ©2019 Implement By Angular</nz-footer> -->
+  </nz-layout>
+</nz-layout>

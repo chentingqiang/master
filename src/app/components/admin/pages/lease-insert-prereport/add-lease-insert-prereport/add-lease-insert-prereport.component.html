@@ -1,0 +1,166 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left">租赁入库预报单新增</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body text-center" *ngIf="!loadedFlag">
+    <div class="loading-wrapper">
+        <nz-spin [nzTip]="'Loading...'" nzSimple></nz-spin>
+    </div>
+</div>
+<div class="modal-body" *ngIf="loadedFlag">
+    <table class="table text-right" id="search-head">
+        <tr>
+            <td class="wid-fix"><label for="forcastNum">预报单号:</label></td>
+            <td colspan="3"><input class="form-control" id="forcastNum" name="forcastNum" type="text"
+                    placeholder="系统自动生成" disabled>
+            </td>
+        </tr>
+        <tr>
+            <td><label for="forcastTime"><i class="icons-red">*</i> 预报时间:</label></td>
+            <td colspan="3">
+                <nz-range-picker [(ngModel)]="forcastTime" nzFormat="yyyy-MM-dd" style="float:left;"
+                    [nzDisabledDate]="disabledDate"></nz-range-picker>
+            </td>
+        </tr>
+        <tr>
+            <td><label for="stockName"><i class="icons-red">*</i> 仓库名称:</label></td>
+            <td>
+                <select name="stockName" id="stockName" [(ngModel)]="stockName" class="form-control"
+                    on-change="selectStock($event.target.value)">
+                    <option value="">请选择</option>
+                    <option value="{{item.id}}" *ngFor="let item of stockList">{{item.name}}</option>
+                </select>
+            </td>
+        </tr>
+        <tr [hidden]="hiddenFlag">
+            <td><label for="deliverName"><i class="icons-red">*</i> 收货人姓名:</label></td>
+            <td><input class="form-control" id="deliverName" name="deliverName" type="text" placeholder=""
+                    [(ngModel)]="deliverName">
+            </td>
+            <td><label for="deliverPhone"><i class="icons-red">*</i> 收货人电话:</label></td>
+            <td><input class="form-control" id="deliverPhone" name="deliverPhone" type="text" placeholder=""
+                    [(ngModel)]="deliverPhone">
+            </td>
+        </tr>
+        <tr [hidden]="hiddenFlag">
+            <td><label for="receiveAddress"><i class="icons-red">*</i>收货地址:</label></td>
+            <td colspan="3"><input class="form-control" id="receiveAddress" name="receiveAddress" type="text"
+                    placeholder="" [(ngModel)]="receiveAddress"></td>
+        </tr>
+        <tr>
+            <td><label for="carNumber"><i class="icons-red">*</i> 车牌号:</label></td>
+            <td><input class="form-control" id="carNumber" name="carNumber" type="text" placeholder=""
+                    [(ngModel)]="carNumber"></td>
+            <td><label for="driverName"><i class="icons-red">*</i> 司机姓名:</label></td>
+            <td><input class="form-control" id="driverName" name="driverName" type="text" placeholder=""
+                    [(ngModel)]="driverName"></td>
+        </tr>
+        <tr>
+            <td><label for="driverTel"><i class="icons-red">*</i> 司机电话:</label></td>
+            <td><input class="form-control" id="driverTel" name="driverTel" type="text" placeholder=""
+                    [(ngModel)]="driverTel"></td>
+        </tr>
+        <tr>
+            <td><label for="CntrNo"> 柜号:</label></td>
+            <td><input class="form-control" id="CntrNo" name="CntrNo" type="text" placeholder="" [(ngModel)]="CntrNo">
+            </td>
+            <td><label for="batch"> 批次:</label></td>
+            <td><input class="form-control" id="batch" name="batch" type="text" placeholder="" [(ngModel)]="batch"></td>
+        </tr>
+        <tr>
+            <td><label for="logisticsCompany">物流公司:</label></td>
+            <td colspan="3">
+                <input class="form-control" id="logisticsCompany" name="logisticsCompany" type="text" placeholder=""
+                    [(ngModel)]="logisticsCompany">
+            </td>
+        </tr>
+        <tr>
+            <td><label for="description">描述:</label></td>
+            <td colspan="3"><input class="form-control" id="description" name="description" type="text" placeholder=""
+                    [(ngModel)]="description">
+        </tr>
+    </table>
+    <h5>货物清单:</h5>
+    <table class="table table-condensed text-center table-bordered">
+        <thead>
+            <tr class="active">
+                <td><strong>中文名</strong></td>
+                <td><strong>英文名</strong></td>
+                <td><strong>货物规格</strong></td>
+                <td><strong>货物图片</strong></td>
+                <td><strong>箱条形码</strong></td>
+                <td><strong>瓶条形码</strong></td>
+                <td><strong>货物数量</strong></td>
+                <td><strong>过期时间</strong></td>
+                <td><strong>总体积</strong></td>
+                <td><strong>总重量</strong></td>
+                <td><strong>计价方式</strong></td>
+                <td colspan="2"><button (click)="addNewGood()" type="button" class="btn btn-sm btn-primary"><span
+                            class="glyphicon glyphicon-plus"></span></button></td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of goodList">
+                <td style="width:30%;">
+                    <nz-select name="cargoId" id="cargoId" style="width: 100%;" nzShowSearch nzAllowClear
+                        nzPlaceHolder="请选择" [(ngModel)]="item.cargoId" (ngModelChange)="selectType(item.id,$event)">
+                        <nz-option nzLabel="{{items.cargoName}}" nzValue="{{items.id}}" *ngFor="let items of cargolist"
+                            [(nzDisabled)]="items.checked"></nz-option>
+                    </nz-select>
+                </td>
+                <td>
+                    <span class="static-td">{{item.cargoNumber}}</span>
+                </td>
+                <td style="width:8%;">
+                    <select name="goodStandard" id="goodStandard" class="form-control" [(ngModel)]="item.goodStandard"
+                        disabled>
+                        <option value=""></option>
+                        <option value="{{item.code}}" *ngFor="let item of standardList">{{item.name}}</option>
+                    </select>
+                </td>
+                <td>
+                    <span><img [src]="item.cargoImageUrl" width="34px;" height="34px;" alt=""
+                            (click)="preView(item.cargoImageUrl)" style="cursor:pointer;" /></span>
+                </td>
+                <td>
+                    <span class="static-td">{{item.boxBarCode}}</span>
+                </td>
+                <td>
+                    <span class="static-td">{{item.packageBarCode}}</span>
+                </td>
+                <td style="width:12%;" *ngIf="iostock==1"><input class="form-control" id="" name="" type="number"
+                        [(ngModel)]="item.quantity" placeholder=""></td>
+                <td>
+                    <nz-date-picker [(ngModel)]="item.expireTime" name="expireTime"></nz-date-picker>
+                </td>
+                <td>
+                    <span class="static-td">{{item.goodBulk * item.quantity}}m³</span>
+                    <!-- <input class="form-control" id="" name="goodBulk" type="text" [(ngModel)]="item.goodBulk" disabled> -->
+                </td>
+                <td>
+                    <span class="static-td">{{item.goodWeight * item.quantity}}kg</span>
+                    <!-- <input class="form-control" id="" name="goodWeight" type="text" [(ngModel)]="item.goodWeight" disabled> -->
+                </td>
+                <td style="width:8%;">
+                    <select name="priceUnit" id="priceUnit" class="form-control" [(ngModel)]="item.priceUnit" disabled>
+                        <option value=""></option>
+                        <option value="{{item.code}}" *ngFor="let item of perAccountList">{{item.name}}</option>
+                    </select>
+                </td>
+                <td><button (click)="deleteGood(item.id)" type="button" class="btn btn-sm btn-default"><span
+                            class="glyphicon glyphicon-minus"></span></button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="modal-footer btn_center">
+    <button type="button" class="btn btn-primary" (click)="addWareHouse()">提交</button>
+</div>
+<nz-modal [nzVisible]="previewVisible" [nzContent]="modalContent" [nzFooter]="null"
+    (nzOnCancel)="previewVisible = false">
+    <ng-template #modalContent>
+        <img [src]='cargoImageUrl' [ngStyle]="{ width: '100%' }" />
+    </ng-template>
+</nz-modal>

@@ -1,0 +1,82 @@
+<app-header></app-header>
+<section class="content">
+  <div class="box box-white">
+    <div class="box-body box-body-grey">
+      <div class="search-wraper">
+        <form nz-form>
+          <div nz-row [nzGutter]="24">
+            <div nz-col [nzSpan]="6">
+              <nz-form-item>
+                <nz-form-label [nzSpan]="6" nzFor="beginDate" nzRequired="true">起始时间</nz-form-label>
+                <nz-form-control [nzSpan]="18">
+                  <nz-date-picker [(ngModel)]="beginDate" name="beginDate" nzPlaceHolder="请选择" nzFormat="yyyy-MM-dd"></nz-date-picker>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+            <div nz-col [nzSpan]="6">
+              <nz-form-item>
+                <nz-form-label [nzSpan]="6" nzFor="endDate" nzRequired="true">结束时间</nz-form-label>
+                <nz-form-control [nzSpan]="18">
+                  <nz-date-picker [(ngModel)]="endDate" name="endDate" nzPlaceHolder="请选择" nzFormat="yyyy-MM-dd"></nz-date-picker>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+            <div nz-col [nzSpan]="6">
+              <nz-form-item>
+                <nz-form-label [nzSpan]="6" nzFor="driverId">司机</nz-form-label>
+                <nz-form-control [nzSpan]="18">
+                  <nz-select [(ngModel)]="driverId" name="driverId" nzPlaceHolder="请选择司机" nzAllowClear
+                    nzShowSearch="true">
+                    <nz-option *ngFor="let item of driverList" [nzLabel]="item.name" [nzValue]="item.id">
+                    </nz-option>
+                  </nz-select>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+            <div nz-col [nzSpan]="6">
+              <nz-form-item>
+                <nz-form-label [nzSpan]="6" nzFor="minNum" nzRequired="true">最小数量</nz-form-label>
+                <nz-form-control [nzSpan]="18">
+                  <nz-input-number style="width:100%;" [(ngModel)]="minNum" name="minNum" id="minNum" nzStep="1" [nzPlaceHolder]="'请输入最小数量'"></nz-input-number>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+          <div nz-row>
+            <div nz-col [nzSpan]="24" style="text-align: right;">
+              <button nz-button nzType="default" (click)="search()"><i nz-icon type="search"></i>查询</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="box box-primary">
+    <div class="box-header with-border">
+      <h4 class="box-title">统计列表</h4>
+    </div>
+    <div class="box-body">
+      <div class="">
+        <nz-table #nzTable [nzData]="sendList" nzShowPagination="false" nzBordered="true"
+          [nzLoading]="load.loading3">
+          <thead>
+            <tr>
+              <th nzAlign="center">司机名称</th>
+              <th nzAlign="center">次数</th>
+              <th nzAlign="center">数量</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of nzTable.data">
+              <td nzAlign="center">{{driverMap.get(item.driverId)}}</td>
+              <td nzAlign="center">{{item.times}}</td>
+              <td nzAlign="center">{{item.num}}</td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </div>
+    </div>
+    <!-- /.box-body -->
+  </div>
+</section>
+<!-- /.content -->

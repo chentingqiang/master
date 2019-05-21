@@ -1,0 +1,36 @@
+<aside class="main-sidebar">
+  <!-- sidebar: style can be found in sidebar.less -->
+  <section class="sidebar">
+    <!-- Sidebar user panel -->
+
+    <ul class="sidebar-menu" data-widget="tree">
+      <li class="header text-center" style="font-size: 20px;color: #fff;">仓储管理系统</li>
+      <li class="treeview" *ngFor="let item1 of menulists">
+        <a><i class="fa fa-navicon"></i><span>{{item1.menuName}}</span>
+          <span class="pull-right-container" *ngIf="item1.childMenus.length > 0">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu" *ngIf="item1.childMenus.length > 0">
+          <li class="treeview" *ngFor="let item2 of item1.childMenus">
+            <a routerLink="{{item2.urlPath}}"><i class="fa fa-circle-o"></i>{{item2.menuName}}
+              <span class="pull-right-container" *ngIf="item2.childMenus.length > 0">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu" *ngIf="item2.childMenus.length > 0">
+              <li class="treeview" *ngFor="let item3 of item2.childMenus">
+                <a routerLink="{{item3.urlPath}}"><i class="fa fa-circle-o"></i>{{item3.menuName}}
+                  <span class="pull-right-container" *ngIf="item3.childMenus.length > 0">
+                    <i class="fa fa-angle-left pull-right"></i>
+                  </span>
+                </a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </section>
+  <!-- /.sidebar -->
+</aside>

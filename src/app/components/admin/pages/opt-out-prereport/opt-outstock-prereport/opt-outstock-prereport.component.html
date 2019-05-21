@@ -1,0 +1,333 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">出库登记</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body text-center" *ngIf="!(loadedFlag && loadedFlag1)">
+  <div class="loading-wrapper">
+    <nz-spin [nzTip]="'Loading...'" nzSimple></nz-spin>
+  </div>
+</div>
+<div class="modal-body" *ngIf="loadedFlag && loadedFlag1">
+  <table class="table text-right" id="search-head">
+    <tr>
+      <td style="width:8%"><label for="forcastNum">单号:</label></td>
+      <td style="width:25%"><input class="form-control" id="nums" name="nums" type="text" placeholder="系统自动生成" disabled>
+      </td>
+      <td style="width:8%"><label for="createTime">单据日期:</label></td>
+      <td style="width:25%"><input class="form-control" id="createTime" name="createTime" type="text" placeholder=""
+          [(ngModel)]="paramsObj.createTime" disabled></td>
+    </tr>
+    <tr>
+      <td><label for="preReportNumber">关联预报单:</label></td>
+      <td><input class="form-control" id="preReportNumber" name="preReportNumber" type="text" placeholder=""
+          [(ngModel)]="paramsObj.preReportNumber" disabled></td>
+      <td><label for="settlement"><i class="icons-red">*</i>结算方式:</label></td>
+      <td>
+        <nz-select style="width: 100%" [(ngModel)]="settlement" name="settlement" nzPlaceHolder="请选择结算方式" nzAllowClear>
+          <nz-option *ngFor="let item of settlementList" [nzLabel]="item.name" [nzValue]="item.code">
+          </nz-option>
+        </nz-select>
+      </td>
+    </tr>
+    <tr>
+      <td><label for="stockId">仓库名称:</label></td>
+      <td>
+        <input class="form-control" id="stockName" name="stockName" type="text"
+          placeholder="{{warehouseMap.get(paramsObj.warehouseId).name}}" disabled>
+      </td>
+      <td><label for="tenantName">租赁方:</label></td>
+      <td><input class="form-control" id="tenantName" name="tenantName" type="text"
+          placeholder="{{companyMap.get(paramsObj.tenantId)}}" disabled>
+      </td>
+    </tr>
+    <tr>
+      <td><label for="deliverName"><i class="icons-red">*</i>收货人姓名:</label></td>
+      <td><input class="form-control" id="deliverName" name="deliverName" type="text" placeholder=""
+          [(ngModel)]="paramsObj.deliveryName"></td>
+      <td><label for="deliverPhone"><i class="icons-red">*</i>收货人电话:</label></td>
+      <td><input class="form-control" id="deliverPhone" name="deliverPhone" type="text" placeholder=""
+          [(ngModel)]="paramsObj.deliveryPhone"></td>
+    </tr>
+    <tr>
+      <td><label for="deliverAddress"><i class="icons-red">*</i>收货地址:</label></td>
+      <td>
+        <input class="form-control" id="deliverAddress" name="deliverAddress" type="text" placeholder=""
+          [(ngModel)]="paramsObj.receiveAddress">
+      </td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><label for="deliveryType"><i class="icons-red">*</i>提货方式:</label></td>
+      <td>
+        <nz-radio-group [(ngModel)]="paramsObj.deliveryType" style="width: 120px;float: left;" nzDisabled="true">
+          <label *ngFor="let item of deliverTypeList" nz-radio [nzValue]="item.id">{{item.name}}</label>
+        </nz-radio-group>
+        <div style="float: left;width: calc(100% - 120px);height: 34px;line-height: 34px;"
+          *ngIf="paramsObj.deliveryType == 1">
+          <!-- <input nz-input [(ngModel)]="paramsObj.deliveryCode" id="deliveryCode" name="deliveryCode" placeholder="请输入提货码" disabled> -->
+          <span><strong>提货码:</strong>{{paramsObj.deliveryCode}}</span>
+        </div>
+      </td>
+      <td *ngIf="paramsObj.deliveryType == 1"><label for="deliveryType"><i class="icons-red">*</i>提货时间:</label></td>
+      <td *ngIf="paramsObj.deliveryType == 1">
+        <nz-date-picker [(ngModel)]="paramsObj.deliveryTime" name="deliveryTime" nzPlaceHolder="请选择提货时间"
+          nzDisabled="true"></nz-date-picker>
+        <!-- <span class="static-td">{{paramsObj.deliveryTime}}</span> -->
+      </td>
+    </tr>
+    <tr *ngIf="paramsObj.deliveryType == 1">
+      <td><label for="carNumber"><i class="icons-red">*</i>车牌号:</label></td>
+      <td><input class="form-control" id="carNumber" name="carNumber" type="text" placeholder="请输入车牌号"
+          [(ngModel)]="paramsObj.carNumber"></td>
+      <td><label for="driverTel">司机电话:</label></td>
+      <td><input class="form-control" id="driverTel" name="driverTel" type="text" placeholder="请输入司机电话"
+          [(ngModel)]="paramsObj.driverPhone"></td>
+    </tr>
+    <tr *ngIf="paramsObj.deliveryType == 1">
+      <td><label for="driverName">司机名称:</label></td>
+      <td><input class="form-control" id="driverName" name="driverName" type="text" placeholder="请输入司机名称"
+          [(ngModel)]="paramsObj.driverName">
+      </td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr *ngIf="paramsObj.deliveryType != 1">
+      <td><label for="logisticsCompany"><i class="icons-red">*</i>物流公司:</label></td>
+      <td>
+        <input class="form-control" id="logisticsCompany" name="logisticsCompany" type="text" placeholder="请输入物流公司"
+          [(ngModel)]="paramsObj.logisticsId">
+      </td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><label for="sundryAmount">杂项金额:</label></td>
+      <td><input class="form-control" id="sundryAmount" name="sundryAmount" type="number" placeholder=""
+          [(ngModel)]="sundryAmount" disabled></td>
+      <td><label for="storageAmount">储存金额:</label></td>
+      <td><input class="form-control" id="storageAmount" name="storageAmount" type="number" placeholder=""
+          [(ngModel)]="storageAmount" disabled></td>
+    </tr>
+    <tr>
+      <td><label for="totalAmount">合计金额:</label></td>
+      <td><input class="form-control" id="totalAmount" name="totalAmount" type="number" placeholder=""
+          [(ngModel)]="totalAmount" disabled></td>
+      <td><label for="remark">备注:</label></td>
+      <td><input class="form-control" id="remark" name="remark" type="text" placeholder=""
+          [(ngModel)]="paramsObj.description">
+    </tr>
+  </table>
+  <h5>预报出库清单:</h5>
+  <table class="table table-condensed text-center table-bordered">
+    <thead>
+      <tr class="active">
+        <td><strong>中文名</strong></td>
+        <td><strong>英文名</strong></td>
+        <td><strong>商品图片</strong></td>
+        <td><strong>箱条形码</strong></td>
+        <td><strong>瓶条形码</strong></td>
+        <td><strong>货物规格</strong></td>
+        <td><strong>货物数量</strong></td>
+        <td><strong>货物体积</strong></td>
+        <td><strong>货物重量</strong></td>
+        <td><strong>过期时间</strong></td>
+        <td><strong>计价方式</strong></td>
+        <td></td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of reportCargo">
+        <td>
+          <span>{{cargoMap.get(item.cargoIn.cargoId).cargoName}}</span>
+        </td>
+        <td>
+          <span>{{cargoMap.get(item.cargoIn.cargoId).cargoNumber}}</span>
+        </td>
+        <td>
+          <!-- <span>{{cargoMap.get(item.cargoIn.cargoId).cargoImageUrl}}</span> -->
+          <span>
+            <img [src]="cargoMap.get(item.cargoIn.cargoId).cargoImageUrl" alt="加载失败" width="34px;" height="34px;"
+              (click)="preview(cargoMap.get(item.cargoIn.cargoId).cargoImageUrl)" style="cursor:pointer">
+          </span>
+        </td>
+        <td>
+          <span>{{cargoMap.get(item.cargoIn.cargoId).boxBarCode}}</span>
+        </td>
+        <td>
+          <span>{{cargoMap.get(item.cargoIn.cargoId).packageBarCode}}</span>
+        </td>
+        <td>
+          <span>{{standardMap.get(item.cargoIn.priceUnitId)}}</span>
+        </td>
+        <td>
+          <span>{{item.quantity}}</span>
+        </td>
+        <td>
+          <span>{{cargoMap.get(item.cargoIn.cargoId).volume * item.cargoIn.quantity}}m³</span>
+        </td>
+        <td>
+          <span>{{cargoMap.get(item.cargoIn.cargoId).weight * item.cargoIn.quantity}}kg</span>
+        </td>
+        <td>
+          <span>{{item.cargoIn.produceDate}}</span>
+        </td>
+        <td>
+          <span>{{priceUnitMap.get(item.cargoIn.priceUnitId)}}</span>
+        </td>
+        <td style="text-align:right;"><button (click)="addPrereportGood(item)" type="button"
+            class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-plus"></span></button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <h5>实际出库货物:</h5>
+  <table class="table table-condensed text-center table-bordered">
+    <thead>
+      <tr class="active">
+        <td><strong>中文名</strong></td>
+        <td><strong>英文名</strong></td>
+        <td><strong>商品图片</strong></td>
+        <td><strong>库位名称</strong></td>
+        <td><strong>过期日期</strong></td>
+        <td><strong>免费存放天数</strong></td>
+        <td><strong>实际存放天数</strong></td>
+        <td><strong>存储单价</strong></td>
+        <td><strong>出库数量</strong></td>
+        <td><strong>金额</strong></td>
+        <td style="text-align:right;"><button (click)="isVisible = true" type="button"
+            class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-plus"></span></button></td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of goodList;let i=index">
+        <td>{{cargoMap.get(item.cargoIn.cargoId).cargoName}}</td>
+        <td>{{cargoMap.get(item.cargoIn.cargoId).cargoNumber}}</td>
+        <td>
+          <img [src]="cargoMap.get(item.cargoIn.cargoId).cargoImageUrl" alt="加载失败" width="34px;" height="34px;"
+            (click)="preview(cargoMap.get(item.cargoIn.cargoId).cargoImageUrl)" style="cursor:pointer">
+        </td>
+        <td>{{locationMap.get(item.cargoIn.locationId)}}</td>
+        <td>{{item.cargoIn.produceDate}}</td>
+        <td>{{item.cargoIn.freeNumber}}</td>
+        <td>{{getDays(item.cargoIn.createTime)}}</td>
+        <td>{{item.cargoIn.price}}</td>
+        <td><input type="number" class="form-control" value="" [(ngModel)]="item.maxNums"
+            placeholder="最大数为{{item.staticMaxNum}}" (ngModelChange)="checkNum($event,item.staticMaxNum,i)"
+            [ngClass]="{'red-error': item.isError == true}">
+        </td>
+        <td>
+          <span
+            class="custodianFee">{{(getDays(item.cargoIn.createTime) - item.cargoIn.freeNumber) > 0?(getDays(item.cargoIn.createTime) - item.cargoIn.freeNumber) * item.cargoIn.price * item.maxNums : 0}}</span>
+        </td>
+        <td>
+          <button (click)="deletePrereportGood(item)" type="button" class="btn btn-sm btn-default"><span
+              class="glyphicon glyphicon-minus"></span></button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <h5>出库杂项费用详细:</h5>
+  <table class="table table-condensed text-center table-bordered">
+    <thead>
+      <tr class="active">
+        <td><strong>杂项名称</strong></td>
+        <td class="wid-fix3"><strong>单位</strong></td>
+        <td class="wid-fix2"><strong>数量</strong></td>
+        <td class="wid-fix2"><strong>单价</strong></td>
+        <td class="wid-fix3"><strong>金额</strong></td>
+        <td style="text-align:right;"><button (click)="addNewMiscellaneous()" type="button"
+            class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-plus"></span></button></td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of miscellaneousList;let i=index">
+        <td style="width:30%">
+          <input nz-input [(ngModel)]="item.miscellaneousName" id="miscellaneousName" name="miscellaneousName"
+            placeholder="">
+        </td>
+        <td style="width:15%">
+          <nz-select [(ngModel)]="item.miscellaneousUnit" name="miscellaneousUnit" nzPlaceHolder="请选择单位" nzAllowClear
+            style="width: 100%;">
+            <nz-option *ngFor="let item of standardList" [nzLabel]="item.name" [nzValue]="item.code">
+            </nz-option>
+          </nz-select>
+        </td>
+        <td>
+          <!-- <nz-input-number [(ngModel)]="item.miscellaneousNums" [nzMin]="0" [nzStep]="1" (ngModelChange)="calculateOthers($event)"></nz-input-number> -->
+          <input type="number" [(ngModel)]="item.miscellaneousNums" class="form-control" name="miscellaneousNums"
+            (ngModelChange)="calculateOthers($event,i,'numbers')" [ngClass]="{'red-error': item.isError1 == true}">
+        </td>
+        <td>
+          <!-- <input nz-input [(ngModel)]="item.miscellaneousUnitPrice" id="miscellaneousUnitPrice"
+            name="miscellaneousUnitPrice" placeholder="" (ngModelChange)="calculateOthers($event)"> -->
+          <input type="number" [(ngModel)]="item.miscellaneousUnitPrice" class="form-control"
+            name="miscellaneousUnitPrice" (ngModelChange)="calculateOthers($event,i,'price')"
+            [ngClass]="{'red-error': item.isError2 == true}">
+        </td>
+        <td>
+          <span>
+            {{item.singleTotalPrice}}
+          </span>
+          <!-- <input class="form-control" id="" name="" type="number"
+            value="{{item.miscellaneousNums * item.miscellaneousUnitPrice}}" [(ngModel)]="item.singleTotalPrice"
+            disabled> -->
+        </td>
+        <td><button (click)="deleteMiscellaneous(item.id)" type="button" class="btn btn-sm btn-default"><span
+              class="glyphicon glyphicon-minus"></span></button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="modal-footer btn_center">
+  <button type="button" class="btn btn-primary" (click)="handle()">确认出库</button>
+</div>
+
+<nz-modal [(nzVisible)]="isVisible" nzTitle="出库货物选择" (nzOnCancel)="isVisible=false" (nzOnOk)="isVisible=false"
+  nzMaskClosable="false" nzWidth="1000">
+  <table class="table text-center table-condensed">
+    <tr>
+      <td colspan="4">
+        <nz-select name="cargoId" id="cargoId" style="width: 100%;" nzShowSearch nzAllowClear nzPlaceHolder="请选择出库货物"
+          [(ngModel)]="selectOutbound" (ngModelChange)="selectOutboundGoods($event)">
+          <nz-option [nzLabel]="item.cargoName" [nzValue]="item.id" *ngFor="let item of cargoList"></nz-option>
+        </nz-select>
+      </td>
+    </tr>
+    <tr>
+      <td><b>中文名</b></td>
+      <td><b>英文名</b></td>
+      <td><b>货物图片</b></td>
+      <td><b>剩余量</b></td>
+      <td><b>入库时长(/天)</b></td>
+      <td><b>过期日期</b></td>
+      <td><b>仓库名称</b></td>
+      <td><b>库位名称</b></td>
+    </tr>
+    <tr *ngFor="let item of outboundGoodsList">
+      <td>{{cargoMap.get(item.cargoId).cargoName}}</td>
+      <td>{{cargoMap.get(item.cargoId).cargoNumber}}</td>
+      <td>
+        <img [src]="cargoMap.get(item.cargoId).cargoImageUrl" alt="加载失败" width="34px;" height="34px;"
+          (click)="preview(cargoMap.get(item.cargoId).cargoImageUrl)" style="cursor:pointer">
+      </td>
+      <td>{{item.preQuantity}}</td>
+      <td>{{getDays(item.createTime)}}</td>
+      <td>{{item.produceDate}}</td>
+      <td>{{warehouseMap.get(item.warehouseId).name}}</td>
+      <td>{{locationMap.get(item.locationId)}}</td>
+      <td><button type="button" class="btn btn-primary btn-sm" (click)="addOutbound(item)"><span
+            class="glyphicon glyphicon-plus"></span></button>
+      </td>
+    </tr>
+  </table>
+</nz-modal>
+<nz-modal [nzVisible]="previewVisible" [nzContent]="modalContent" [nzFooter]="null"
+  (nzOnCancel)="previewVisible = false">
+  <ng-template #modalContent>
+    <img [src]='cargoImageUrl' [ngStyle]="{ width: '100%' }" alt="加载失败" />
+  </ng-template>
+</nz-modal>

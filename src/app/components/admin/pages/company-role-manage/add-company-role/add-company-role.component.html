@@ -1,0 +1,26 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left">新增企业角色</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <form nz-form nzLayout="horizontal">
+        <nz-form-item>
+            <nz-form-label [nzSpan]="4" nzFor="companyRoleName" nzRequired>角色名称</nz-form-label>
+            <nz-form-control [nzSpan]="20">
+                <input nz-input [(ngModel)]="companyRoleName" id="companyRoleName" name="companyRoleName"
+                    placeholder="请输入角色名称">
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label [nzSpan]="4" nzFor="description">角色描述</nz-form-label>
+            <nz-form-control [nzSpan]="20">
+                <input nz-input [(ngModel)]="description" id="description" name="description" placeholder="请输入角色描述">
+            </nz-form-control>
+        </nz-form-item>
+    </form>
+</div>
+<div class="modal-footer btn_center">
+    <button type="button" class="btn btn-primary" (click)="addCompanyRole()">提交</button>
+</div>

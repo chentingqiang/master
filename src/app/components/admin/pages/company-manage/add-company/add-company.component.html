@@ -1,0 +1,160 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left">新增企业</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <table class="table-condensed text-right table-bordered" width="100%">
+        <tr>
+            <td class="edit-label">
+                <label for="companyName"> <i class="icons-red">*</i> 企业名称：</label>
+            </td>
+            <td class="edit-input">
+                <input nz-input [(ngModel)]="companyName" id="companyName" name="companyName" placeholder="请输入企业名称">
+            </td>
+            <td class="edit-label">
+                <label><i class="icons-red">*</i>是否为运营公司？</label>
+            </td>
+            <td class="edit-input text-center">
+                <nz-radio-group [(ngModel)]="oprator" style="line-height: 34px;">
+                    <label *ngFor="let item of optList" nz-radio [nzValue]="item.id">{{item.name}}</label>
+                </nz-radio-group>
+            </td>
+        </tr>
+        <tr>
+            <td><label><i class="icons-red">*</i>企业角色：</label></td>
+            <td colspan="3" class="text-center">
+                <nz-checkbox-group [(ngModel)]="roleList" name="add_role" style="line-height: 34px;">
+                </nz-checkbox-group>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="accounts"><i class="icons-red">*</i>登录账号：</label>
+            </td>
+            <td>
+                <input nz-input [(ngModel)]="account" id="accounts" name="accounts" placeholder="请输入登录账号">
+            </td>
+            <td colspan="2"></td>
+        </tr>
+        <tr>
+            <td>
+                <label for="password"><i class="icons-red">*</i>登录密码：</label>
+            </td>
+            <td>
+                <input nz-input [(ngModel)]="password" id="password" name="password" type="password"
+                    placeholder="请输入登录密码">
+            </td>
+            <td>
+                <label for="confirmpass"><i class="icons-red">*</i>确认密码：</label>
+            </td>
+            <td>
+                <input nz-input [(ngModel)]="confirmpass" id="confirmpass" name="confirmpass" type="password"
+                    placeholder="请输入确认密码">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="names"><i class="icons-red">*</i>负责人姓名：</label>
+            </td>
+            <td>
+                <input nz-input [(ngModel)]="name" id="names" name="names" placeholder="请输入姓名">
+            </td>
+            <td>
+                <label for="telephone"><i class="icons-red">*</i>负责人电话：</label>
+            </td>
+            <td>
+                <input nz-input [(ngModel)]="telephone" id="telephone" name="telephone" placeholder="请输入电话">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="email"><i class="icons-red">*</i>负责人邮箱：</label>
+            </td>
+            <td>
+                <input nz-input [(ngModel)]="email" id="email" name="email" placeholder="请输入邮箱">
+            </td>
+            <td colspan="2"></td>
+        </tr>
+        <tr>
+            <td>
+                <label for="province_id"><i class="icons-red">*</i>省份：</label>
+            </td>
+            <td>
+                <nz-select [(ngModel)]="province_id" name="province_id" id="province_id" nzPlaceHolder="请选择省份"
+                    nzShowSearch style="width: 100%;" (ngModelChange)="selectProvince($event)">
+                    <nz-option *ngFor="let item of provinceList" [nzLabel]="item.areaname" [nzValue]="item.areaid">
+                    </nz-option>
+                </nz-select>
+            </td>
+            <td>
+                <label for="city_id"><i class="icons-red">*</i>市/县：</label>
+            </td>
+            <td>
+                <nz-select [(ngModel)]="city_id" name="city_id" id="city_id" nzPlaceHolder="请选择市/县" nzShowSearch
+                    style="width: 100%;">
+                    <nz-option *ngFor="let item of cityList" [nzLabel]="item.areaname" [nzValue]="item.areaid">
+                    </nz-option>
+                </nz-select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="address">详细地址：</label>
+            </td>
+            <td colspan="3">
+                <input nz-input [(ngModel)]="address" id="address" name="address" placeholder="请输入详细地址">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="bankName"><i class="icons-red">*</i>开户银行：</label>
+            </td>
+            <td>
+                <input nz-input [(ngModel)]="bankName" id="bankName" name="bankName" placeholder="请输入开户银行">
+            </td>
+            <td>
+                <label for="bankCard"><i class="icons-red">*</i>银行账号：</label>
+            </td>
+            <td>
+                <input nz-input [(ngModel)]="bankCard" id="bankCard" name="bankCard" placeholder="请输入银行账号">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="alipayId">支付宝账号：</label>
+            </td>
+            <td>
+                <input nz-input [(ngModel)]="alipayId" id="alipayId" name="alipayId" placeholder="请输入支付宝账号">
+            </td>
+            <td>
+                <label for="weixinId">微信账号：</label>
+            </td>
+            <td>
+                <input nz-input [(ngModel)]="weixinId" id="weixinId" name="weixinId" placeholder="请输入微信账号">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="scloudpayId">云闪付账号：</label>
+            </td>
+            <td>
+                <input nz-input [(ngModel)]="scloudpayId" id="scloudpayId" name="scloudpayId" placeholder="请输入云闪付账号">
+            </td>
+            <td></td>
+            <td></td>
+        </tr>
+        <!-- <tr>
+            <td>
+                <label for="c_remark">备注信息：</label>
+            </td>
+            <td colspan="3">
+                <input nz-input [(ngModel)]="c_remark" id="c_remark" name="c_remark" placeholder="请输入备注信息">
+            </td>
+        </tr> -->
+    </table>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="addCompany()">提交</button>
+</div>

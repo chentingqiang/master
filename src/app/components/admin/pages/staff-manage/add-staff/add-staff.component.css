@@ -1,0 +1,11 @@
+.wid-fix{
+    width: 15%;
+}
+input[name="edit_roles"]{
+    height: 34px;
+    line-height: 34px;
+    margin-top: 0;
+}
+.checkbox-inline{
+    margin-right: 5px!important;
+}

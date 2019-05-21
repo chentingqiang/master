@@ -1,0 +1,11 @@
+.wid-fix{
+    width: 12%;
+}
+strong{
+    height: 32px;
+    line-height: 32px;
+}
+td span{
+    height: 34px;
+    line-height: 34px;
+}

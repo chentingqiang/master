@@ -1,0 +1,134 @@
+<app-header></app-header>
+<!-- Main content -->
+<section class="content">
+  <div class="box box-white">
+    <div class="box-body box-body-grey">
+      <div class="search-wraper">
+        <form nz-form>
+          <div nz-row nzGutter="24">
+            <div nz-col nzSpan="6">
+              <nz-form-item>
+                <nz-form-label [nzSpan]="6" nzFor="preReportNumber">预报单号</nz-form-label>
+                <nz-form-control [nzSpan]="18">
+                  <input nz-input [(ngModel)]="optPrereportService.preReportNumber" name="preReportNumber"
+                    placeholder="请输入预报单号">
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+            <div nz-col nzSpan="6">
+              <nz-form-item>
+                <nz-form-label [nzSpan]="6">企业名称</nz-form-label>
+                <nz-form-control [nzSpan]="18">
+                  <nz-select [(ngModel)]="optPrereportService.companyName" name="companyName" nzPlaceHolder="请选择企业名称"
+                    nzAllowClear nzShowSearch>
+                    <nz-option *ngFor="let item of companyList" [nzLabel]="item.companyName" [nzValue]="item.id">
+                    </nz-option>
+                  </nz-select>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+            <div nz-col nzSpan="6">
+              <nz-form-item>
+                <nz-form-label [nzSpan]="6">仓库名称</nz-form-label>
+                <nz-form-control [nzSpan]="18">
+                  <nz-select [(ngModel)]="optPrereportService.stockName" name="stockName" nzPlaceHolder="请选择仓库名称"
+                    nzAllowClear nzShowSearch (ngModelChange)="changeStock($event)">
+                    <nz-option *ngFor="let item of stockList" [nzLabel]="item.name" [nzValue]="item.id">
+                    </nz-option>
+                  </nz-select>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+            <div nz-col nzSpan="6">
+              <nz-form-item>
+                <nz-form-label [nzSpan]="6">状态</nz-form-label>
+                <nz-form-control [nzSpan]="18">
+                  <nz-select [(ngModel)]="optPrereportService.status" name="status" nzPlaceHolder="请选择状态" nzAllowClear
+                    nzShowSearch>
+                    <nz-option *ngFor="let item of stateList" [nzLabel]="item.name" [nzValue]="item.id">
+                    </nz-option>
+                  </nz-select>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+            <div nz-col nzSpan="6">
+              <nz-form-item>
+                <nz-form-label [nzSpan]="6">起始时间</nz-form-label>
+                <nz-form-control [nzSpan]="18">
+                  <nz-date-picker [(ngModel)]="optPrereportService.startTime" name="startTime"></nz-date-picker>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+            <div nz-col nzSpan="6">
+              <nz-form-item>
+                <nz-form-label [nzSpan]="6">终止时间</nz-form-label>
+                <nz-form-control [nzSpan]="18">
+                  <nz-date-picker [(ngModel)]="optPrereportService.endTime" name="endTime"></nz-date-picker>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+          <div nz-row>
+            <div nz-col [nzSpan]="24" style="text-align: right;">
+              <button nz-button nzType="default" (click)="searchPrereport()"><i nz-icon type="search"></i>查询</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="box box-primary">
+    <div class="box-header with-border">
+      <h4 class="box-title">出库预报单</h4>
+    </div>
+    <div class="box-body">
+      <div class="table-responsive">
+        <nz-table #nzTable [nzData]="optPrereportService.prePortList" nzShowPagination="true" nzBordered="true"
+          [nzLoading]="optPrereportService.load.loading12" [(nzPageIndex)]="optPrereportService.pagenation.page"
+          [nzTotal]="optPrereportService.pagenation.total" nzShowSizeChanger
+          [(nzPageSize)]="optPrereportService.pagenation.size" (nzPageIndexChange)="searchPrereport()"
+          (nzPageSizeChange)="searchPrereport()">
+          <thead>
+            <tr>
+              <th nzAlign="center">英文名</th>
+              <th nzAlign="center">预报单号</th>
+              <th nzAlign="center">企业名称</th>
+              <th nzAlign="center">仓库名称</th>
+              <th nzAlign="center">车牌号</th>
+              <th nzAlign="center">司机电话</th>
+              <th nzAlign="center">提货方式</th>
+              <th nzAlign="center">状态</th>
+              <th nzAlign="center">提交时间</th>
+              <th nzAlign="center">业务员</th>
+              <th nzAlign="center">操作员</th>
+              <th nzAlign="center">操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of nzTable.data">
+              <td nzAlign="center">{{item.preReportNumber}}</td>
+              <td nzAlign="center">{{companyMap.get(item.tenantId)}}</td>
+              <td nzAlign="center">{{warehouseMaps.get(item.warehouseId)}}</td>
+              <td nzAlign="center">{{item.carNumber}}</td>
+              <td nzAlign="center">{{item.driverPhone}}</td>
+              <td nzAlign="center">{{deliverTypeMap.get(item.deliveryType)}}</td>
+              <td nzAlign="center">{{stateMap.get(item.state)}}</td>
+              <td nzAlign="center">{{item.createTime}}</td>
+              <td nzAlign="center">{{operatorMap.get(item.applicantId)}}</td>
+              <td nzAlign="center">{{operatorMap.get(item.reviewerId)}}</td>
+              <td nzAlign="center">
+                <a *ngIf="item.state != 1" (click)="viewPrereport(item)">查看</a>
+                <nz-divider nzType="vertical"></nz-divider>
+                <a *ngIf="item.state == 2" (click)="toStockPrereport(item)">登记出库</a>
+                <nz-divider nzType="vertical"></nz-divider>
+                <a *ngIf="item.state == 1" (click)="viewPrereport(item)">审核</a>
+              </td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </div>
+    </div>
+    <!-- /.box-body -->
+  </div>
+</section>
+<!-- /.content -->

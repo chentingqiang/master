@@ -1,0 +1,99 @@
+<app-header></app-header>
+<!-- Main content -->
+<section class="content">
+    <div class="box box-white">
+        <div class="box-body box-body-grey">
+            <div class="search-wraper">
+                <form nz-form>
+                    <div nz-row nzGutter="24">
+                        <div nz-col nzSpan="6">
+                            <nz-form-item>
+                                <nz-form-label [nzSpan]="6" nzFor="staffName">姓名</nz-form-label>
+                                <nz-form-control [nzSpan]="18">
+                                    <input nz-input [(ngModel)]="staffService.staffName" id="staffName" name="staffName"
+                                        placeholder="请输入姓名">
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                        <div nz-col nzSpan="6">
+                            <nz-form-item>
+                                <nz-form-label [nzSpan]="6" nzFor="tel">电话</nz-form-label>
+                                <nz-form-control [nzSpan]="18">
+                                    <input nz-input [(ngModel)]="staffService.tel" id="tel" name="tel"
+                                        placeholder="请输入电话">
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                        <div nz-col nzSpan="6">
+                            <nz-form-item>
+                                <nz-form-label [nzSpan]="6">角色</nz-form-label>
+                                <nz-form-control [nzSpan]="18">
+                                    <nz-select [(ngModel)]="staffService.roleId" name="roleId" nzPlaceHolder="请选择角色"
+                                        nzAllowClear nzShowSearch>
+                                        <nz-option *ngFor="let item of staffService.roleList" [nzLabel]="item.roleName"
+                                            [nzValue]="item.id">
+                                        </nz-option>
+                                    </nz-select>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                    </div>
+                    <div nz-row>
+                        <div nz-col [nzSpan]="24" style="text-align: right;">
+                            <button nz-button nzType="default" (click)="searchStaff()"><i nz-icon
+                                    type="search"></i>查询</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="box box-primary">
+        <div class="box-header with-border">
+            <h4 class="box-title">员工列表</h4>
+            <div class="pull-right">
+                <button nz-button type="button" nzType="primary" (click)="addStaff()"><i nz-icon
+                        nzType="plus"></i>新增</button>
+            </div>
+        </div>
+        <div class="box-body">
+            <div class="table-responsive">
+                <nz-table #nzTable [nzData]="staffService.staffList" nzShowPagination="false" nzBordered="true"
+                    [nzLoading]="staffService.load.loading4">
+                    <thead>
+                        <tr>
+                            <th nzAlign="center">账户名称</th>
+                            <th nzAlign="center">姓名</th>
+                            <th nzAlign="center">角色</th>
+                            <th nzAlign="center">电话</th>
+                            <th nzAlign="center">邮箱</th>
+                            <th nzAlign="center">注册时间</th>
+                            <th nzAlign="center">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of nzTable.data">
+                            <td nzAlign="center">{{item.account}}</td>
+                            <td nzAlign="center">{{item.name}}</td>
+                            <td nzAlign="center">{{item.userRoleNames}}</td>
+                            <td nzAlign="center">{{item.telephone}}</td>
+                            <td nzAlign="center">{{item.email}}</td>
+                            <td nzAlign="center">{{item.createtime}}</td>
+                            <td nzAlign="center">
+                                <a (click)="editStaff(item)">编辑</a>
+                                <nz-divider nzType="vertical"></nz-divider>
+                                <a (click)="viewStaff(item)">查看</a>
+                                <nz-divider nzType="vertical"></nz-divider>
+                                <nz-popconfirm nzTitle="确定吗？" (nzOnConfirm)="deleteStaff(item.id)">
+                                    <a nz-popconfirm>删除</a>
+                                </nz-popconfirm>
+                            </td>
+                        </tr>
+                    </tbody>
+                </nz-table>
+            </div>
+        </div>
+        <!-- /.box-body -->
+    </div>
+</section>
+<!-- /.content -->

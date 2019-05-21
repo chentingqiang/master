@@ -1,0 +1,131 @@
+<app-header></app-header>
+<section class="content">
+  <div class="box box-white">
+    <div class="box-body box-body-grey">
+      <div class="search-wraper">
+        <form nz-form>
+          <div nz-row nzGutter="24">
+            <div nz-col nzSpan="6">
+              <nz-form-item>
+                <nz-form-label [nzSpan]="6">起始时间</nz-form-label>
+                <nz-form-control [nzSpan]="18">
+                  <nz-date-picker [(ngModel)]="startTime" name="startTime" nzPlaceHolder="请选择起始时间"></nz-date-picker>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+            <div nz-col nzSpan="6">
+              <nz-form-item>
+                <nz-form-label [nzSpan]="6">终止时间</nz-form-label>
+                <nz-form-control [nzSpan]="18">
+                  <nz-date-picker [(ngModel)]="endTime" name="endTime" nzPlaceHolder="请选择终止时间"></nz-date-picker>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+            <div nz-col nzSpan="6">
+              <nz-form-item>
+                <nz-form-label [nzSpan]="6">货物名称</nz-form-label>
+                <nz-form-control [nzSpan]="18">
+                  <nz-select style="width: 100%;" [(ngModel)]="cargoId" name="cargoId" nzPlaceHolder="请选择货物名称"
+                    nzAllowClear nzShowSearch>
+                    <nz-option *ngFor="let item of cargoList" [nzLabel]="item.cargoName" [nzValue]="item.id">
+                    </nz-option>
+                  </nz-select>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+            <div nz-col nzSpan="6">
+              <nz-form-item>
+                <nz-form-label [nzSpan]="6">货物类型</nz-form-label>
+                <nz-form-control [nzSpan]="18">
+                  <nz-select style="width: 100%;" [(ngModel)]="cargoType" name="cargoType" nzPlaceHolder="请选择货物类型"
+                    nzAllowClear nzShowSearch>
+                    <nz-option *ngFor="let item of cargoTypeList" [nzLabel]="item.cargoName" [nzValue]="item.id">
+                    </nz-option>
+                  </nz-select>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+            <div nz-col nzSpan="6">
+              <nz-form-item>
+                <nz-form-label [nzSpan]="6">租赁方</nz-form-label>
+                <nz-form-control [nzSpan]="18">
+                  <nz-select style="width: 100%;" [(ngModel)]="companyId" name="companyId" nzPlaceHolder="请选择租赁方"
+                    nzAllowClear nzShowSearch>
+                    <nz-option *ngFor="let item of companyList" [nzLabel]="item.companyName" [nzValue]="item.id">
+                    </nz-option>
+                  </nz-select>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+            <div nz-col nzSpan="6">
+              <nz-form-item>
+                <nz-form-label [nzSpan]="6">仓库名称</nz-form-label>
+                <nz-form-control [nzSpan]="18">
+                  <nz-select style="width: 100%;" [(ngModel)]="warehouseId" name="warehouseId" nzPlaceHolder="请选择仓库名称"
+                    nzAllowClear nzShowSearch>
+                    <nz-option *ngFor="let item of stockList" [nzLabel]="item.name" [nzValue]="item.id">
+                    </nz-option>
+                  </nz-select>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+            <div nz-col nzSpan="6">
+              <nz-form-item>
+                <nz-form-label [nzSpan]="6">操作员</nz-form-label>
+                <nz-form-control [nzSpan]="18">
+                  <nz-select style="width: 100%;" [(ngModel)]="operator" name="operator" nzPlaceHolder="请选择操作员"
+                    nzAllowClear nzShowSearch>
+                    <nz-option *ngFor="let item of operatorList" [nzLabel]="item.name" [nzValue]="item.id">
+                    </nz-option>
+                  </nz-select>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+          <div nz-row>
+            <div nz-col [nzSpan]="24" style="text-align: right;">
+              <button nz-button nzType="default" (click)="toSearch()"><i nz-icon type="search"></i>查询</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="box box-primary">
+    <div class="box-header with-border">
+      <h4 class="box-title">入库清单</h4>
+    </div>
+    <div class="box-body">
+      <div class="">
+        <nz-table #nzTable [nzData]="searchList" nzShowPagination="true" nzBordered="true" [nzLoading]="load.loading7"
+          [(nzPageIndex)]="pagenation.page" [nzTotal]="pagenation.total" nzShowSizeChanger
+          [(nzPageSize)]="pagenation.size" (nzPageIndexChange)="toSearch()" (nzPageSizeChange)="toSearch()">
+          <thead>
+            <tr>
+              <th nzAlign="center">单号</th>
+              <th nzAlign="center">日期</th>
+              <th nzAlign="center">租赁方</th>
+              <th nzAlign="center">仓库名称</th>
+              <th nzAlign="center">操作员</th>
+              <th nzAlign="center">操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of nzTable.data">
+              <td nzAlign="center">{{item.inNumber}}</td>
+              <td nzAlign="center">{{item.createTime}}</td>
+              <td nzAlign="center">{{companyMap.get(item.tenantId)}}</td>
+              <td nzAlign="center">{{warehouseMap.get(item.warehouseId)}}</td>
+              <td nzAlign="center">{{operatorMap.get(item.operatorId)}}</td>
+              <td nzAlign="center">
+                <a (click)="toView(item)">查看</a>
+              </td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </div>
+    </div>
+    <!-- /.box-body -->
+  </div>
+</section>
+<!-- /.content -->

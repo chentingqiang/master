@@ -1,0 +1,23 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">单位类型新增</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <table class="table text-right" id="search-head">
+    <tr>
+      <td class="wid-fix"><label for="priceUnitTypeNumber">编号：</label></td>
+      <td> <input type="text" class="form-control" id="priceUnitTypeNumber" placeholder="系统自动生成"
+          name="priceUnitTypeNumber" disabled></td>
+    </tr>
+    <tr>
+      <td class="wid-fix"><label for="priceUnitTypeName">单位类型名称：</label></td>
+      <td> <input type="text" class="form-control" id="priceUnitTypeName" placeholder="" [(ngModel)]="priceUnitTypeName"
+          name="priceUnitTypeName"></td>
+    </tr>
+  </table>
+</div>
+<div class="modal-footer btn_center">
+  <button type="button" class="btn btn-primary" (click)="addPriceUnitType()">提交</button>
+</div>

@@ -1,0 +1,114 @@
+<app-header></app-header>
+<!-- Main content -->
+<section class="content">
+  <div class="box box-white">
+    <div class="box-body box-body-grey">
+      <div class="search-wraper">
+        <form nz-form>
+          <div nz-row nzGutter="24">
+            <div nz-col nzSpan="6">
+              <nz-form-item>
+                <nz-form-label [nzSpan]="6" nzFor="goodsNumber">货物英文名</nz-form-label>
+                <nz-form-control [nzSpan]="18">
+                  <input nz-input [(ngModel)]="goodsService.goodsNumber" id="goodsNumber" name="goodsNumber"
+                    placeholder="请输入货物英文名">
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+            <div nz-col nzSpan="6">
+              <nz-form-item>
+                <nz-form-label [nzSpan]="6" nzFor="goodsName">货物中文名</nz-form-label>
+                <nz-form-control [nzSpan]="18">
+                  <input nz-input [(ngModel)]="goodsService.goodsName" id="goodsName" name="goodsName"
+                    placeholder="请输入货物中文名">
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+            <div nz-col nzSpan="6">
+              <nz-form-item>
+                <nz-form-label [nzSpan]="6">货物类别</nz-form-label>
+                <nz-form-control [nzSpan]="18">
+                  <nz-select [(ngModel)]="goodsService.goodsType" name="goodsType" nzPlaceHolder="请选择货物类别" nzAllowClear
+                    nzShowSearch>
+                    <nz-option *ngFor="let item of goodsTypeList" [nzLabel]="item.name" [nzValue]="item.id">
+                    </nz-option>
+                  </nz-select>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+          <div nz-row>
+            <div nz-col [nzSpan]="24" style="text-align: right;">
+              <button nz-button nzType="default" (click)="searchGoods()"><i nz-icon type="search"></i>查询</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="box box-primary">
+    <div class="box-header with-border">
+      <h4 class="box-title">货物品名列表</h4>
+      <div class="pull-right">
+        <button nz-button type="button" nzType="primary" (click)="addGoods()"><i nz-icon nzType="plus"></i>新增</button>
+      </div>
+    </div>
+    <div class="box-body">
+      <div class="" id="printTable">
+        <nz-table #nzTable [nzData]="goodsService.allGoodsList" nzShowPagination="false" nzBordered="true"
+          [nzLoading]="goodsService.load.loading6">
+          <thead>
+            <tr>
+              <th nzAlign="center">英文名</th>
+              <th nzAlign="center">中文名</th>
+              <th nzAlign="center">图片</th>
+              <th nzAlign="center">厂家</th>
+              <th nzAlign="center">代理商</th>
+              <th nzAlign="center">产地</th>
+              <th nzAlign="center">存储单位</th>
+              <th nzAlign="center">单位子数量</th>
+              <th nzAlign="center">货物类别</th>
+              <th nzAlign="center">体积</th>
+              <th nzAlign="center">重量</th>
+              <th nzAlign="center">描述</th>
+              <th nzAlign="center">操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of nzTable.data">
+              <td nzAlign="center">{{item.cargoNumber}}</td>
+              <td nzAlign="center">{{item.cargoName}}</td>
+              <td nzAlign="center"><img [src]="item.cargoImageUrl" width="25px;" height="25px;" alt="加载失败"
+                  (click)="preView(item.cargoImageUrl)" style="cursor:pointer;" /></td>
+              <td nzAlign="center">{{productionMap.get(item.plantId)}}</td>
+              <td nzAlign="center">{{agentMap.get(item.agentId)}}</td>
+              <td nzAlign="center">{{originPlaceMap.get(item.producePlaceId)}}</td>
+              <td nzAlign="center">{{unitsMap.get(item.measUnitId)}}</td>
+              <td nzAlign="center">{{item.splitNumber}}</td>
+              <td nzAlign="center">{{goodsTypeMap.get(item.typeId)}}</td>
+              <td nzAlign="center">{{item.volume}}</td>
+              <td nzAlign="center">{{item.weight}}</td>
+              <td nzAlign="center">{{item.descrption}}</td>
+              <td nzAlign="center">
+                <a (click)="editGoods(item)">编辑</a>
+                <nz-divider nzType="vertical"></nz-divider>
+                <nz-popconfirm nzTitle="确定吗？" (nzOnConfirm)="deleteGoods(item.id)">
+                  <a nz-popconfirm>删除</a>
+                </nz-popconfirm>
+              </td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </div>
+    </div>
+    <!-- /.box-body -->
+  </div>
+</section>
+<!-- /.content -->
+<!-- 预览图 -->
+<nz-modal [nzVisible]="previewVisible" [nzContent]="modalContent" [nzFooter]="null"
+  (nzOnCancel)="previewVisible = false">
+  <ng-template #modalContent>
+    <img [src]='cargoImageUrl' [ngStyle]="{ width: '100%' }" />
+  </ng-template>
+</nz-modal>

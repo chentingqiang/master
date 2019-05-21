@@ -1,0 +1,110 @@
+<app-header></app-header>
+<section class="content">
+  <div class="box box-white">
+    <div class="box-body box-body-grey">
+      <div class="search-wraper">
+        <form nz-form>
+          <div nz-row nzGutter="24">
+            <div nz-col nzSpan="6">
+              <nz-form-item>
+                <nz-form-label [nzSpan]="7" nzRequired="true">结算年月</nz-form-label>
+                <nz-form-control [nzSpan]="17">
+                  <nz-month-picker [(ngModel)]="settlementService.timeSlot" name="timeSlot" nzFormat="yyyy-MM" nzPlaceHolder="请选择结算年月">
+                  </nz-month-picker>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+            <div nz-col nzSpan="6">
+              <nz-form-item>
+                <nz-form-label [nzSpan]="6">租户名称</nz-form-label>
+                <nz-form-control [nzSpan]="18">
+                  <nz-select [(ngModel)]="settlementService.tenantId" name="tenantId" nzPlaceHolder="请选择租户" nzAllowClear
+                    nzShowSearch>
+                    <nz-option *ngFor="let item of companyList" [nzLabel]="item.companyName" [nzValue]="item.id">
+                    </nz-option>
+                  </nz-select>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+            <div nz-col nzSpan="6">
+              <nz-form-item>
+                <nz-form-label [nzSpan]="6">状态</nz-form-label>
+                <nz-form-control [nzSpan]="18">
+                  <nz-select [(ngModel)]="settlementService.state" name="state" nzPlaceHolder="请选择状态" nzAllowClear
+                    nzShowSearch>
+                    <nz-option *ngFor="let item of stateList" [nzLabel]="item.name" [nzValue]="item.id">
+                    </nz-option>
+                  </nz-select>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+            <div nz-col nzSpan="6">
+              <nz-form-item>
+                <nz-form-label [nzSpan]="6">支付方式</nz-form-label>
+                <nz-form-control [nzSpan]="18">
+                  <nz-select [(ngModel)]="settlementService.paymentId" name="paymentId" nzPlaceHolder="请选择支付方式"
+                    nzAllowClear nzShowSearch>
+                    <nz-option *ngFor="let item of paymentList" [nzLabel]="item.name" [nzValue]="item.code">
+                    </nz-option>
+                  </nz-select>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+          <div nz-row>
+            <div nz-col [nzSpan]="24" style="text-align: right;">
+              <button nz-button nzType="default" (click)="search()"><i nz-icon type="search"></i>查询</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="box box-primary">
+    <div class="box-header with-border">
+      <h4 class="box-title">结算列表</h4>
+    </div>
+    <div class="box-body">
+      <div class="">
+        <nz-table #nzTable [nzData]="settlementService.lists" nzShowPagination nzBordered="true" [nzLoading]="settlementService.load.loading17"
+          [(nzPageIndex)]="settlementService.pagenation.page" [nzTotal]="settlementService.pagenation.total"
+          nzShowSizeChanger [(nzPageSize)]="settlementService.pagenation.size" (nzPageIndexChange)="search()"
+          (nzPageSizeChange)="search()">
+          <thead>
+            <tr>
+              <th nzAlign="center">租户名称</th>
+              <th nzAlign="center">日期</th>
+              <th nzAlign="center">入库金额(元)</th>
+              <th nzAlign="center">出库金额(元)</th>
+              <th nzAlign="center">总金额(元)</th>
+              <th nzAlign="center">状态</th>
+              <th nzAlign="center">操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of nzTable.data">
+              <td nzAlign="center">{{companyMap.get(item.tenantId)}}</td>
+              <td nzAlign="center">{{item.settleDate.split('-')[0]}}年&nbsp;{{item.settleDate.split('-')[1]}}月</td>
+              <td nzAlign="center">{{item.inMoney?item.inMoney:0}}</td>
+              <td nzAlign="center">{{item.outMoney?item.outMoney:0}}</td>
+              <!-- <td nzAlign="center">{{((item.inMoney?item.inMoney:0) + (item.outMoney?item.outMoney:0)).toFixed(2)}}</td> -->
+              <td nzAlign="center">{{item.totalMoney?item.totalMoney:0}}</td>
+              <td nzAlign="center">
+                <nz-badge nzStatus="processing" [nzText]="stateMap.get(item.state)" *ngIf="item.state == 2"></nz-badge>
+                <nz-badge nzStatus="error" [nzText]="stateMap.get(item.state)" *ngIf="item.state == 1"></nz-badge>
+              </td>
+              <td nzAlign="center">
+                <div *ngIf="item.state == 1">
+                  <a (click)="toPay(item)">结算</a>
+                </div>
+                <div *ngIf="item.state == 2">
+                  <a (click)="toPay(item)">查看</a>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </div>
+    </div>
+  </div>
+</section>

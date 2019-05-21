@@ -1,0 +1,64 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">月结算</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<!-- <div class="modal-body text-center" *ngIf="!loadedFlag">
+  <div class="loading-wrapper">
+    <nz-spin [nzTip]="'Loading...'" nzSimple></nz-spin>
+  </div>
+</div> -->
+<div class="modal-body">
+  <form nz-form nzLayout="horizontal">
+    <nz-form-item nzFlex>
+      <nz-form-label nzSpan="5">企业名称</nz-form-label>
+      <nz-form-control nzSpan="19">
+        {{companyMap.get(editObj.tenantId)}}
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nzFlex>
+      <nz-form-label nzSpan="5">日期</nz-form-label>
+      <nz-form-control nzSpan="19">
+        {{editObj.settleDate.split('-')[0]}}年{{editObj.settleDate.split('-')[1]}}月
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nzFlex>
+      <nz-form-label nzSpan="5">入库金额</nz-form-label>
+      <nz-form-control nzSpan="19">
+        {{editObj.inMoney}}（元）
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nzFlex>
+      <nz-form-label nzSpan="5">出库金额</nz-form-label>
+      <nz-form-control nzSpan="19">
+        {{editObj.outMoney}}（元）
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nzFlex>
+      <nz-form-label nzSpan="5">总金额</nz-form-label>
+      <nz-form-control nzSpan="19">
+        {{editObj.outMoney}}（元）
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nzFlex *ngIf="editObj.state == 2">
+      <nz-form-label nzSpan="5">结算方式</nz-form-label>
+      <nz-form-control nzSpan="19">
+        {{paymentMap.get(editObj.paymentId)}}
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nzFlex *ngIf="editObj.state == 1">
+      <nz-form-label nzSpan="5" nzRequired="true">结算方式</nz-form-label>
+      <nz-form-control nzSpan="19">
+        <nz-select style="width: 100%;" [(ngModel)]="editObj.paymentId" name="paymentId-e" id="paymentId-e"
+          nzPlaceHolder="请选择" nzAllowClear nzShowSearch="true">
+          <nz-option *ngFor="let item of paymentList" [nzLabel]="item.name" [nzValue]="item.code">
+          </nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</div>
+<div class="modal-footer btn_center">
+  <button nz-button (click)="confirm()" nzType="primary" *ngIf="editObj.state == 1">确认结算</button>
+</div>

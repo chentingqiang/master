@@ -1,0 +1,88 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">仓库编辑</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body text-center" *ngIf="!(loadedFlag && loadedFlag1)">
+  <div class="loading-wrapper">
+    <nz-spin [nzTip]="'Loading...'" nzSimple></nz-spin>
+  </div>
+</div>
+<div class="modal-body" *ngIf="loadedFlag && loadedFlag1">
+  <table class="table text-right" id="search-head">
+    <tr>
+      <td class="wid-fix"><label for="stockNumber-e"><i class="icons-red">*</i>仓库编号：</label></td>
+      <td>
+        <input nz-input [(ngModel)]="paramsObj.warehouseNumber" id="stockNumber-e" name="stockNumber"
+          placeholder="请输入仓库编号">
+      </td>
+    </tr>
+    <tr>
+      <td><label for="stockName-e"><i class="icons-red">*</i>仓库名称：</label></td>
+      <td>
+        <input nz-input [(ngModel)]="paramsObj.warehouseName" id="stockName-e" name="stockName" placeholder="请输入仓库名称">
+      </td>
+    </tr>
+    <tr>
+      <td><label for="province_id-e"><i class="icons-red">*</i>仓库地址：</label></td>
+      <td>
+        <nz-input-group nzCompact>
+          <nz-select style="width: 50%;" id="province_id-e" [(ngModel)]="paramsObj.provinceId"
+            (ngModelChange)="selectProvince($event)" name="province_id" nzPlaceHolder="请选择省份" nzAllowClear nzShowSearch>
+            <nz-option *ngFor="let item of provinceList" [nzLabel]="item.areaname" [nzValue]="item.areaid">
+            </nz-option>
+          </nz-select>
+          <nz-select style="width: 50%;" [(ngModel)]="paramsObj.cityId" name="city_id" nzPlaceHolder="请选择县/市"
+            nzAllowClear nzShowSearch>
+            <nz-option *ngFor="let item of cityList" [nzLabel]="item.areaname" [nzValue]="item.areaid">
+            </nz-option>
+          </nz-select>
+        </nz-input-group>
+      </td>
+    </tr>
+    <tr>
+      <td><label for="address-e">详细地址：</label></td>
+      <td>
+        <input nz-input [(ngModel)]="paramsObj.address" id="address-e" name="address" placeholder="请输入详细地址">
+      </td>
+    </tr>
+    <tr>
+      <td><label for="rentTime-e">租赁起止时间：</label></td>
+      <td nzAlign="center">
+        <!-- <nz-range-picker [(ngModel)]="rentTime" name="rentTime" id="rentTime-e"></nz-range-picker> -->
+        <!-- <span class="static-td">{{rentTime}}</span> -->
+        <span class="static-td">{{paramsObj.beginTime + ' 至 ' + paramsObj.endTime}}</span>
+      </td>
+    </tr>
+    <tr>
+      <td><label for="stockArea-e"><i class="icons-red">*</i>仓库面积：</label></td>
+      <td>
+        <nz-input-group nzAddOnAfter="㎡">
+          <input type="number" nz-input [(ngModel)]="paramsObj.area" id="stockArea-e" name="stockArea"
+            placeholder="请输入仓库面积" />
+        </nz-input-group>
+      </td>
+    </tr>
+    <tr>
+      <td><label for="stockType-e"><i class="icons-red">*</i>仓库类型：</label></td>
+      <td>
+        <nz-select style="width: 100%;" id="stockType-e" [(ngModel)]="paramsObj.warehouseType" name="stockType"
+          nzPlaceHolder="请选择仓库类型" nzAllowClear nzShowSearch>
+          <nz-option *ngFor="let item of stockTypeList" [nzLabel]="item.name" [nzValue]="item.code">
+          </nz-option>
+        </nz-select>
+      </td>
+    </tr>
+    <tr>
+      <td><label for="remark-e">备注：</label></td>
+      <td>
+        <textarea nz-input [(ngModel)]="paramsObj.description" id="remark-e" name="remark" rows="3"
+          placeholder="请输入备注"></textarea>
+      </td>
+    </tr>
+  </table>
+</div>
+<div class="modal-footer btn_center">
+  <button type="button" class="btn btn-primary" (click)="editStock()">提交</button>
+</div>

@@ -1,0 +1,195 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">预报出库详情</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <table class="table text-center table-bordered" id="search-head">
+    <tr>
+      <td class="wid-fix"><label for="forcastNum">预报单号:</label></td>
+      <td><span>{{list.preReportNumber}}</span></td>
+      <td class="wid-fix"><label for="companyName">企业名称:</label></td>
+      <td><span>{{companyMap.get(list.companyId)}}</span></td>
+    </tr>
+    <tr>
+      <td><label for="forcastTime">预报出库时间:</label></td>
+      <td colspan="3"><span>{{forcastTime}}</span></td>
+    </tr>
+    <tr>
+      <td><label>出入库:</label></td>
+      <td><span>出库</span></td>
+      <td><label for="stockName">仓库名称:</label></td>
+      <td><span>{{warehouseMap.get(list.warehouseId).name}}</span></td>
+    </tr>
+    <tr>
+      <td><label>车牌号:</label></td>
+      <td><span>{{list.carNumber}}</span></td>
+      <td><label for="driverTel">司机电话:</label></td>
+      <td><span>{{list.driverPhone}}</span></td>
+    </tr>
+    <tr>
+      <td><label>司机姓名:</label></td>
+      <td><span>{{list.driverName}}</span></td>
+      <td><label>物流公司:</label></td>
+      <td><span>{{list.logistics}}</span></td>
+    </tr>
+    <tr>
+      <td><label>收货人姓名:</label></td>
+      <td><span>{{list.deliveryName}}</span></td>
+      <td><label>收货人电话:</label></td>
+      <td><span>{{list.deliveryPhone}}</span></td>
+    </tr>
+    <tr>
+      <td><label>收货地址:</label></td>
+      <td colspan="3"><span>{{list.receiveAddress}}</span></td>
+    </tr>
+    <tr>
+      <td><label>提货方式:</label></td>
+      <td><span>{{deliverTypeMap.get(list.deliveryType)}}</span></td>
+      <td [hidden]="list.deliveryType == 2"><label>提货码:</label></td>
+      <td [hidden]="list.deliveryType == 2"><span>{{list.deliveryCode}}</span></td>
+    </tr>
+    <tr>
+      <td><label>财务审核过账:</label></td>
+      <td colspan="3" *ngIf="list.state != 1"><span>{{list.totalAmounts}}(元)</span><button style="margin-left:10px;"
+          class="btn btn-sm" disabled>已审核</button></td>
+      <td colspan="3" *ngIf="list.state == 1"><span>{{list.totalAmounts}}(元)</span>
+        <nz-popconfirm nzTitle="确定审核？" (nzOnConfirm)="confirm()">
+          <button nz-popconfirm style="margin-left:10px;" class="btn btn-sm btn-primary">审核</button>
+          <!-- <a nz-popconfirm>审核</a> -->
+        </nz-popconfirm>
+      </td>
+    </tr>
+    <tr>
+      <td><label>备注:</label></td>
+      <td colspan="3"><span>{{list.descrption}}</span></td>
+    </tr>
+  </table>
+  <h5>预报出库清单:</h5>
+  <table class="table table-condensed text-center table-bordered">
+    <thead>
+      <tr class="active">
+        <td><strong>中文名</strong></td>
+        <td><strong>英文名</strong></td>
+        <td><strong>商品图片</strong></td>
+        <td><strong>箱条形码</strong></td>
+        <td><strong>瓶条形码</strong></td>
+        <td><strong>货物规格</strong></td>
+        <td><strong>货物数量</strong></td>
+        <td><strong>货物体积</strong></td>
+        <td><strong>货物重量</strong></td>
+        <td><strong>过期时间</strong></td>
+        <td><strong>计价方式</strong></td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of goodList">
+        <td>
+          <span>{{cargoMap.get(item.cargoIn.cargoId).cargoName}}</span>
+        </td>
+        <td>
+          <span>{{cargoMap.get(item.cargoIn.cargoId).cargoNumber}}</span>
+        </td>
+        <td>
+          <span>
+            <img [src]="cargoMap.get(item.cargoIn.cargoId).cargoImageUrl" alt="加载失败" width="34px;" height="34px;"
+              (click)="preview(cargoMap.get(item.cargoIn.cargoId).cargoImageUrl)" style="cursor:pointer">
+          </span>
+        </td>
+        <td>
+          <span>{{cargoMap.get(item.cargoIn.cargoId).boxBarCode}}</span>
+        </td>
+        <td>
+          <span>{{cargoMap.get(item.cargoIn.cargoId).packageBarCode}}</span>
+        </td>
+        <td>
+          <span>{{standardMap.get(item.cargoIn.priceUnitId)}}</span>
+        </td>
+        <td>
+          <span>{{item.quantity}}</span>
+        </td>
+        <td>
+          <span>{{cargoMap.get(item.cargoIn.cargoId).volume * item.cargoIn.quantity}}m³</span>
+        </td>
+        <td>
+          <span>{{cargoMap.get(item.cargoIn.cargoId).weight * item.cargoIn.quantity}}kg</span>
+        </td>
+        <td>
+          <span>{{item.cargoIn.produceDate}}</span>
+        </td>
+        <td>
+          <span>{{priceUnitMap.get(item.cargoIn.priceUnitId)}}</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div *ngIf="list.state == 3">
+    <h5>实际出库清单:</h5>
+    <table class="table table-condensed text-center table-bordered">
+      <thead>
+        <tr class="active">
+          <td><strong>中文名</strong></td>
+          <td><strong>英文名</strong></td>
+          <td><strong>商品图片</strong></td>
+          <td><strong>箱条形码</strong></td>
+          <td><strong>瓶条形码</strong></td>
+          <td><strong>货物规格</strong></td>
+          <td><strong>货物数量</strong></td>
+          <td><strong>货物体积</strong></td>
+          <td><strong>货物重量</strong></td>
+          <td><strong>过期时间</strong></td>
+          <td><strong>计价方式</strong></td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of outstorageCargoList">
+          <td>
+            <span>{{cargoMap.get(item.cargoId).cargoName}}</span>
+          </td>
+          <td>
+            <span>{{cargoMap.get(item.cargoId).cargoNumber}}</span>
+          </td>
+          <td>
+            <span>
+              <img [src]="cargoMap.get(item.cargoId).cargoImageUrl" alt="加载失败" width="34px;" height="34px;"
+                (click)="preview(cargoMap.get(item.cargoId).cargoImageUrl)" style="cursor:pointer">
+            </span>
+          </td>
+          <td>
+            <span>{{cargoMap.get(item.cargoId).boxBarCode}}</span>
+          </td>
+          <td>
+            <span>{{cargoMap.get(item.cargoId).packageBarCode}}</span>
+          </td>
+          <td>
+            <span>{{standardMap.get(item.priceUnitId)}}</span>
+          </td>
+          <td>
+            <span>{{item.quantity}}</span>
+          </td>
+          <td>
+            <span>{{cargoMap.get(item.cargoId).volume * item.quantity}}m³</span>
+          </td>
+          <td>
+            <span>{{cargoMap.get(item.cargoId).weight * item.quantity}}kg</span>
+          </td>
+          <td>
+            <span>{{item.produceDate}}</span>
+          </td>
+          <td>
+            <span>{{priceUnitMap.get(item.priceUnitId)}}</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="modal-footer">
+</div>
+<nz-modal [nzVisible]="previewVisible" [nzContent]="modalContent" [nzFooter]="null"
+  (nzOnCancel)="previewVisible = false">
+  <ng-template #modalContent>
+    <img [src]='cargoImageUrl' [ngStyle]="{ width: '100%' }"  alt="加载失败"/>
+  </ng-template>
+</nz-modal>

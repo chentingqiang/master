@@ -1,0 +1,142 @@
+<app-header></app-header>
+<!-- Main content -->
+<section class="content">
+  <div class="box box-white">
+    <div class="box-body box-body-grey">
+      <div class="">
+        <form nz-form>
+          <div nz-row nzGutter="24">
+            <div nz-col nzSpan="6">
+              <nz-form-item>
+                <nz-form-label [nzSpan]="6">运营公司</nz-form-label>
+                <nz-form-control [nzSpan]="18">
+                  <nz-select name="company" id="company" style="width: 100%;" nzShowSearch nzAllowClear
+                    nzPlaceHolder="请选择公司名称" [(ngModel)]="company" (ngModelChange)="selectType($event)">
+                    <nz-option [nzLabel]="item.companyName" [nzValue]="item.id" *ngFor="let item of companyList">
+                    </nz-option>
+                  </nz-select>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+            <div nz-col nzSpan="6">
+              <nz-form-item>
+                <nz-form-label [nzSpan]="6">仓库名称</nz-form-label>
+                <nz-form-control [nzSpan]="18">
+                  <nz-select name="warehouseId" id="warehouseId" style="width: 100%;" nzShowSearch nzAllowClear
+                    nzPlaceHolder="请选择仓库名称" [(ngModel)]="warehouseId">
+                    <nz-option [nzLabel]="item.name" [nzValue]="item.id" *ngFor="let item of warehouseList">
+                    </nz-option>
+                  </nz-select>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+            <div nz-col nzSpan="6">
+              <nz-form-item>
+                <nz-form-label [nzSpan]="6">货物名称</nz-form-label>
+                <nz-form-control [nzSpan]="18">
+                  <nz-select name="cargoId" style="width: 100%;" nzShowSearch nzAllowClear nzPlaceHolder="请选择货物名称"
+                    [(ngModel)]="cargoId">
+                    <nz-option [nzLabel]="item.cargoName" [nzValue]="item.id" *ngFor="let item of cargoList">
+                    </nz-option>
+                  </nz-select>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+          <div nz-row>
+            <div nz-col [nzSpan]="24" style="text-align: right;">
+              <button nz-button nzType="default" (click)="searchStock()"><i nz-icon type="search"></i>查询</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="box box-primary">
+    <div class="box-header with-border">
+      <h3 class="box-title">库存列表</h3>
+    </div>
+    <div class="box-body">
+      <div class="table-responsive">
+        <nz-table #nestedTable [nzData]="allStockList" nzShowPagination="false" nzBordered [nzLoading]="load.loading10">
+          <thead>
+            <tr style="background:#3c8dbc;color: white">
+              <th nzShowExpand></th>
+              <th nzAlign="center">中文名</th>
+              <th nzAlign="center">英文名</th>
+              <th nzAlign="center">货物图片</th>
+              <th nzAlign="center">租赁公司名称</th>
+              <th nzAlign="center">运营公司名称</th>
+              <th nzAlign="center">数量</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-template ngFor let-data [ngForOf]="nestedTable.data">
+              <tr>
+                <td nzShowExpand [(nzExpand)]="mapOfExpandData[data.id]"></td>
+                <td nzAlign="center">{{ cargoMap.get(data.cargoId).cargoName }}</td>
+                <td nzAlign="center">{{ cargoMap.get(data.cargoId).cargoNumber }}</td>
+                <td nzAlign="center">
+                  <img [src]="cargoMap.get(data.cargoId).cargoImageUrl" width="34px;" height="34px;" alt="加载失败"
+                    (click)="preView(cargoMap.get(data.cargoId).cargoImageUrl)" style="cursor:pointer;" />
+                </td>
+                <td nzAlign="center">{{ companyMap.get(data.tenantId) }}</td>
+                <td nzAlign="center">{{ companyMap.get(data.companyId) }}</td>
+                <td nzAlign="center">{{ data.num }}</td>
+              </tr>
+              <tr [(nzExpand)]="mapOfExpandData[data.id]">
+                <td></td>
+                <td colspan="6">
+                  <nz-table #innerTable [nzData]="data.list" nzSize="middle" [nzShowPagination]="false">
+                    <thead>
+                      <tr>
+                        <th nzAlign="center">中文名</th>
+                        <th nzAlign="center">英文名</th>
+                        <th nzAlign="center">货物图片</th>
+                        <th nzAlign="center">运营公司名称</th>
+                        <th nzAlign="center">过期日期</th>
+                        <th nzAlign="center">仓库名称</th>
+                        <th nzAlign="center">入库时长(天)</th>
+                        <th nzAlign="center">数量</th>
+                      </tr>
+                    </thead>
+          <tbody>
+            <tr *ngFor="let datas of innerTable.data">
+              <td nzAlign="center">{{ cargoMap.get(datas.cargoId).cargoName }}</td>
+              <td nzAlign="center">{{ cargoMap.get(datas.cargoId).cargoNumber }}</td>
+              <td nzAlign="center">
+                <img [src]="cargoMap.get(datas.cargoId).cargoImageUrl" width="34px;" height="34px;" alt="加载失败"
+                  (click)="preView(cargoMap.get(datas.cargoId).cargoImageUrl)" style="cursor:pointer;" />
+              </td>
+              <td nzAlign="center">{{ companyMap.get(datas.companyId) }}</td>
+              <td nzAlign="center">{{ datas.produceDate }}</td>
+              <td nzAlign="center">{{ warehouseMap.get(datas.warehouseId).name }}</td>
+              <td nzAlign="center">{{ datas.inTime }}</td>
+              <td nzAlign="center">{{ datas.num }}</td>
+            </tr>
+          </tbody>
+        </nz-table>
+        </td>
+        </tr>
+        </ng-template>
+        </tbody>
+        </nz-table>
+      </div>
+    </div>
+    <!-- /.box-body -->
+    <div class="box-footer text-right">
+      <nz-pagination [(nzPageIndex)]="pagenation.page" [nzTotal]="pagenation.total" nzShowSizeChanger
+        [(nzPageSize)]="pagenation.size" (nzPageIndexChange)="searchStock()" (nzPageSizeChange)="searchStock()">
+      </nz-pagination>
+    </div>
+    <!-- /.box-footer-->
+  </div>
+</section>
+<!-- /.content -->
+<!-- 预览图 -->
+<nz-modal [nzVisible]="previewVisible" [nzContent]="modalContent" [nzFooter]="null"
+  (nzOnCancel)="previewVisible = false">
+  <ng-template #modalContent>
+    <img [src]='cargoImageUrl' [ngStyle]="{ width: '100%' }" />
+  </ng-template>
+</nz-modal>

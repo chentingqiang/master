@@ -1,0 +1,28 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left">员工角色新增</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <table class="table text-right" id="search-head">
+      <tr>
+        <td class="wid-fix2"><label for="roleNumber">角色编号：</label></td>
+        <td> <input type="text" class="form-control" id="roleNumber" placeholder="系统自动生成"
+             name="roleNumber" disabled></td>
+      </tr>
+      <tr>
+        <td><label for="roleName">角色名称：</label></td>
+        <td><input type="text" class="form-control" id="roleName" placeholder="" [(ngModel)]="roleName"
+            name="roleName"></td>
+      </tr>
+      <tr>
+        <td><label for="description">角色描述：</label></td>
+        <td><input type="text" class="form-control" id="description" placeholder="" [(ngModel)]="description"
+            name="description"></td>
+      </tr>
+    </table>
+  </div>
+  <div class="modal-footer btn_center">
+    <button type="button" class="btn btn-primary" (click)="addStaffRole()">提交</button>
+  </div>

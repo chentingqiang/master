@@ -1,0 +1,39 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">单位新增</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body text-center" *ngIf="!loadedFlag">
+  <div class="loading-wrapper">
+    <nz-spin [nzTip]="'Loading...'" nzSimple></nz-spin>
+  </div>
+</div>
+<div class="modal-body" *ngIf="loadedFlag">
+  <table class="table text-right" id="search-head">
+    <tr>
+      <td class="wid-fix"><label for="priceUnitTypeName">单位类型名称：</label></td>
+      <td>
+        <select name="priceUnitTypeName" id="priceUnitTypeName" class="form-control" [(ngModel)]="priceUnitTypeName">
+          <option value="">请选择</option>
+          <option value="{{item.id}}" *ngFor="let item of priceUnitTypeList;let i=index">
+            {{item.typeName}}</option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td class="wid-fix"><label for="priceUnitNumber">单位编号：</label></td>
+      <td> <input type="text" class="form-control" id="priceUnitNumber" placeholder="" name="priceUnitNumber"
+          [(ngModel)]="priceUnitNumber">
+      </td>
+    </tr>
+    <tr>
+      <td class="wid-fix"><label for="priceUnitName">单位名称：</label></td>
+      <td> <input type="text" class="form-control" id="priceUnitName" placeholder="" [(ngModel)]="priceUnitName"
+          name="priceUnitName"></td>
+    </tr>
+  </table>
+</div>
+<div class="modal-footer btn_center">
+  <button type="button" class="btn btn-primary" (click)="addPriceUnit()">提交</button>
+</div>

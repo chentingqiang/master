@@ -1,0 +1,128 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">货物品名新增</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <table class="table text-right" id="search-head">
+    <tr>
+      <td class="wid-fix"><label for="goodsNumber"><i class="icons-red">*</i> 英文名：</label></td>
+      <td> <input type="text" class="form-control" id="goodsNumber" placeholder="" [(ngModel)]="goodsNumber"
+          name="goodsNumber"></td>
+      <td class="wid-fix"><label for="goodsName"><i class="icons-red">*</i> 中文名：</label></td>
+      <td> <input type="text" class="form-control" id="goodsName" placeholder="" [(ngModel)]="goodsName"
+          name="goodsName"></td>
+    </tr>
+    <tr>
+      <td class="wid-fix"><label for="goodsType"><i class="icons-red">*</i> 货物类别：</label></td>
+      <td>
+        <select name="goodsType" id="goodsType" class="form-control" [(ngModel)]="goodsType">
+          <option value="">请选择</option>
+          <option value="{{item.id}}" *ngFor="let item of goodsTypeList">{{item.name}}</option>
+        </select>
+      </td>
+      <td><label for="cargoImageUrl"><i class="icons-red">*</i> 货物图片：</label></td>
+      <td rowspan="3">
+        <nz-upload style="float:left;" nzAccept="image/*" [nzBeforeUpload]="beforeUpload" nzListType="picture-card"
+          [(nzFileList)]="fileList" [nzShowButton]="fileList.length < 1" [nzShowUploadList]="showUploadList"
+          [nzPreview]="handlePreview" [nzRemove]="handleRemove">
+          <i nz-icon nzType="plus"></i>
+          <div class="ant-upload-text">上传</div>
+        </nz-upload>
+        <nz-modal [nzVisible]="previewVisible" [nzContent]="modalContent" [nzFooter]="null"
+          (nzOnCancel)="previewVisible = false">
+          <ng-template #modalContent>
+            <img [src]="previewImage" [ngStyle]="{ width: '100%' }" />
+          </ng-template>
+        </nz-modal>
+      </td>
+    </tr>
+    <tr>
+      <td><label for="production"> 厂家：</label></td>
+      <td>
+        <select name="production" id="production" class="form-control" [(ngModel)]="production">
+          <option value="">请选择</option>
+          <option value="{{item.code}}" *ngFor="let item of productionList">{{item.name}}</option>
+        </select>
+      </td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><label for="agent">代理商：</label></td>
+      <td>
+        <select name="agent" id="agent" class="form-control" [(ngModel)]="agent">
+          <option value="">请选择</option>
+          <option value="{{item.code}}" *ngFor="let item of agentList">{{item.name}}</option>
+        </select>
+      </td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><label for="orignPlace"><i class="icons-red">*</i> 产地：</label></td>
+      <td>
+        <select name="orignPlace" id="orignPlace" class="form-control" [(ngModel)]="orignPlace">
+          <option value="">请选择</option>
+          <option value="{{item.code}}" *ngFor="let item of originPlaceList">{{item.name}}</option>
+        </select>
+      </td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td class="wid-fix"><label for="priceUnit"><i class="icons-red">*</i> 计量单位：</label></td>
+      <td>
+        <select name="priceUnit" id="priceUnit" class="form-control" [(ngModel)]="priceUnit">
+          <option value="">请选择</option>
+          <option value="{{item.code}}" *ngFor="let item of priceUnitList">{{item.name}}</option>
+        </select>
+        <!-- <input type="text" class="form-control" id="priceUnit" placeholder="" [(ngModel)]="priceUnit"
+          name="priceUnit">
+        </td> -->
+      <td><label for="priceUnitNumber"><i class="icons-red">*</i> 单位子数量：</label></td>
+      <td> <input type="number" class="form-control" id="priceUnitNumber" placeholder="" [(ngModel)]="priceUnitNumber"
+          name="priceUnitNumber" nzTrigger="blur" nzPlacement="top" nz-tooltip [nzTitle]="errorTemplate1"
+          [nzVisible]="errObj.nzVisible1" (blur)="checkNumbers($event.target.value,1)">
+        <ng-template #errorTemplate1>
+          <i nz-icon type="close-circle" style="margin-right: 8px"></i> <span>{{errObj.errorMsg1}}</span>
+        </ng-template>
+      </td>
+    </tr>
+    <tr>
+      <td class="wid-fix"><label for="volume">体积：</label></td>
+      <td> <input type="number" class="form-control" id="volume" placeholder="" [(ngModel)]="volume" name="volume"
+          nzPlacement="top" nzTrigger="blur" nz-tooltip [nzTitle]="errorTemplate2" [nzVisible]="errObj.nzVisible2"
+          (blur)="checkNumbers($event.target.value,2)">
+        <ng-template #errorTemplate2>
+          <i nz-icon type="close-circle" style="margin-right: 8px"></i> <span>{{errObj.errorMsg2}}</span>
+        </ng-template>
+      </td>
+      <td><label for="weight">重量：</label></td>
+      <td> <input type="number" class="form-control" id="weight" placeholder="" [(ngModel)]="weight" name="weight"
+          nzPlacement="top" nzTrigger="blur" nz-tooltip [nzTitle]="errorTemplate3" [nzVisible]="errObj.nzVisible3"
+          (blur)="checkNumbers($event.target.value,3)">
+        <ng-template #errorTemplate3>
+          <i nz-icon type="close-circle" style="margin-right: 8px"></i> <span>{{errObj.errorMsg3}}</span>
+        </ng-template>
+      </td>
+    </tr>
+    <tr>
+      <td class="wid-fix"><label for="boxBarCode"><i class="icons-red">*</i> 箱条形码：</label></td>
+      <td> <input type="text" class="form-control" id="boxBarCode" placeholder="" [(ngModel)]="boxBarCode"
+          name="boxBarCode"></td>
+      <td><label for="packageBarCode"><i class="icons-red">*</i> 瓶条形码：</label></td>
+      <td> <input type="text" class="form-control" id="packageBarCode" placeholder="" [(ngModel)]="packageBarCode"
+          name="packageBarCode"></td>
+    </tr>
+    <tr>
+      <td><label for="description">描述：</label></td>
+      <td colspan="3"> <input type="text" class="form-control" id="description" placeholder="" [(ngModel)]="description"
+          name="description"></td>
+    </tr>
+  </table>
+</div>
+<div class="modal-footer btn_center">
+  <button type="button" class="btn btn-primary" (click)="addGoods()">提交</button>
+</div>

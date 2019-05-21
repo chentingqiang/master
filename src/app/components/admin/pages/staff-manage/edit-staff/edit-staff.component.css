@@ -1,0 +1,16 @@
+.wid-fix{
+    width: 15%;
+}
+td>label{
+    font-size: 10px;
+    height: 34px;
+    line-height: 34px;
+}
+input[name="edit_role"]{
+    height: 34px;
+    line-height: 34px;
+    margin-top: 0;
+}
+.checkbox-inline{
+    margin-right: 5px!important;
+}

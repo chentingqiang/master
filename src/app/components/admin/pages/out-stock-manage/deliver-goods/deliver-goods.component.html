@@ -1,0 +1,54 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">发货单</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form nz-form nzLayout="horizontal">
+    <nz-form-item nzFlex>
+      <nz-form-label nzFor="driverId" nzSpan="5">司机姓名</nz-form-label>
+      <nz-form-control nzSpan="18">
+        <nz-select [(ngModel)]="driverId" name="driverId" id="driverId" nzPlaceHolder="请选择司机" nzAllowClear
+          style="width: 100%;" (ngModelChange)="changeTel($event)">
+          <nz-option *ngFor="let item of driverList" [nzLabel]="item.name" [nzValue]="item.id">
+          </nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nzFlex>
+      <nz-form-label nzFor="telephone" nzSpan="5">司机电话</nz-form-label>
+      <nz-form-control nzSpan="18">
+        <input nz-input [(ngModel)]="telephone" id="telephone" name="telephone" placeholder="请输入司机电话">
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nzFlex>
+      <nz-form-label nzFor="logisticsInfo" nzSpan="5">物流编号</nz-form-label>
+      <nz-form-control nzSpan="18">
+        <input nz-input [(ngModel)]="logisticsInfo" id="logisticsInfo" name="logisticsInfo" placeholder="请输入物流编号">
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nzFlex>
+      <nz-form-label nzFor="" nzSpan="5">物流图片</nz-form-label>
+      <nz-form-control nzSpan="18">
+        <div class="clearfix">
+          <nz-upload nzAccept="image/*" [nzBeforeUpload]="beforeUpload" nzListType="picture-card"
+            [(nzFileList)]="fileList" [nzShowButton]="fileList.length < 1" [nzShowUploadList]="showUploadList"
+            [nzPreview]="handlePreview" [nzRemove]="handleRemove">
+            <i nz-icon nzType="plus"></i>
+            <div class="ant-upload-text">上传</div>
+          </nz-upload>
+          <nz-modal [nzVisible]="previewVisible" [nzContent]="modalContent" [nzFooter]="null"
+            (nzOnCancel)="previewVisible = false">
+            <ng-template #modalContent>
+              <img [src]="previewImage" [ngStyle]="{ width: '100%' }" />
+            </ng-template>
+          </nz-modal>
+        </div>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</div>
+<div class="modal-footer btn-center">
+  <button type="button" class="btn btn-primary" (click)="handle()">确认发货</button>
+</div>

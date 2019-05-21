@@ -1,0 +1,46 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left">编辑员工</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <table class="table table-condensed text-right" id="search-head">
+        <tr>
+            <td class="wid-fix"><label for="account">员工账号：</label></td>
+            <td><input type="text" class="form-control" id="account" placeholder="" [(ngModel)]="paramsObj.account"
+                    name="account" disabled></td>
+        </tr>
+        <tr>
+            <td><label for="name">员工姓名：</label></td>
+            <td><input type="text" class="form-control" id="name" placeholder="" [(ngModel)]="paramsObj.name" name="name"
+                    disabled></td>
+        </tr>
+        <tr>
+            <td><label for="email">邮箱：</label></td>
+            <td><input type="text" class="form-control" id="email" placeholder="" [(ngModel)]="paramsObj.email" name="email">
+            </td>
+        </tr>
+        <tr>
+            <td><label for="telephone">电话：</label></td>
+            <td><input type="text" class="form-control" id="telephone" placeholder="" [(ngModel)]="paramsObj.telephone"
+                    name="telephone"></td>
+        </tr>
+        <tr>
+            <td><label for="">角色：</label></td>
+            <td class="text-center">
+                <!-- <div class="checkbox-group" id="c_role">
+                    <label class="checkbox-inline" *ngFor="let item of roleList">
+                        <input type="checkbox" name="edit_role" value="{{item.id}}"
+                            [(checked)]="item.check">{{item.roleName}}
+                    </label>
+                </div> -->
+                <nz-checkbox-group [(ngModel)]="roleLists" name="add_role" style="line-height: 34px;">
+                </nz-checkbox-group>
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="modal-footer btn_center">
+    <button type="button" class="btn btn-primary" (click)="editStaff()">提交</button>
+</div>

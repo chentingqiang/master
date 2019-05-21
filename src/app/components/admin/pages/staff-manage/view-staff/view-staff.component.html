@@ -1,0 +1,36 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left">员工详情</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <table class="table table-condensed text-right table-bordered" id="search-head">
+        <tr>
+            <td class="col-sm-2"><label for="account">员工账号：</label></td>
+            <td class="text-center p-center">{{list.account}}</td>
+        </tr>
+        <tr>
+            <td><label for="name">员工姓名：</label></td>
+            <td class="text-center p-center">{{list.name}}</td>
+        </tr>
+        <tr>
+            <td><label for="email">邮箱：</label></td>
+            <td class="text-center p-center">{{list.email}}</td>
+        </tr>
+        <tr>
+            <td><label for="telephone">电话：</label></td>
+            <td class="text-center p-center">{{list.telephone}}</td>
+        </tr>
+        <tr>
+            <td><label for="userRoleId">角色：</label></td>
+            <td class="text-center p-center">{{roleMap.get(list.id)}}</td>
+        </tr>
+        <tr>
+            <td><label for="registerTime">注册时间：</label></td>
+            <td class="text-center p-center">{{list.createtime}}</td>
+        </tr>
+    </table>
+</div>
+<div class="modal-footer btn_center">
+</div>

@@ -1,0 +1,127 @@
+/* You can add global styles to this file, and also import other style files */
+/*
+   server-side-angular-way.component.css
+*/
+.no-data-available {
+    text-align: center;
+  }
+  
+  /*
+     src/styles.css (i.e. your global style)
+  */
+  .icon-sty{
+    margin-right:8px;
+  }
+  .modal-content{
+    border-radius: 6px!important;
+  }
+  .modal-footer {
+    text-align: center;
+}
+  #search-head label{
+    margin: 0;
+    height: 34px;
+    line-height: 34px;
+    font-size: 12px;
+  }
+  #search-head .form-control{
+    font-size: 12px;
+  }
+  #search-head td{
+    padding: 5px;
+  }
+  #search-head tr{
+    border: 0;
+  }
+  /* .btn_center{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  } */
+  .control-label{
+    font-size: 12px;
+  }
+  .form-control{
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+  }
+  .dropdown-menu {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+    border: 1px solid rgba(0, 0, 0, .15);
+  }
+  .modal-xll{
+    width: 90%;
+  }
+  .modal-xl{
+    width: 70%;
+  }
+  .modal-xs{
+    width: 60%;
+  }
+  .cdk-overlay-container{
+    z-index: 99999!important;
+  }
+  .icons-red{
+    color: red;
+    font-family: SimSun,sans-serif;
+    font-size: 14px;
+    margin-right: 4px;
+  }
+  .static-td{
+    height: 34px;
+    line-height: 34px;
+  }
+.ant-calendar-picker{
+    width: 100%;
+}
+.edit-label{
+  width: 12%;
+}
+.edit-input{
+  width: 38%;
+}
+.loading-wrapper{
+  height: 60px;
+}
+.content{
+  height: 100vh;
+}
+.box-white {
+  border-top-color: white!important;
+}
+.box-body-grey{
+  background: white;
+}
+.search-wraper .ant-form-item{
+  margin: 0;
+}
+/* .content-wrap-header{
+  width: 100%;
+  background: #fff;
+  margin-top: 5px;
+}
+.content-header{
+  padding: 15px;
+}
+.ant-card{
+  margin: 24px 24px 0;
+}
+.ant-advanced-search-form {
+  padding: 24px;
+  background: #fbfbfb;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+}
+.search-header{
+  width: 100%;
+  height: auto;
+  background: #fff;
+}
+.table-wraper{
+  width: 100%;
+  height: 100%;
+  padding: 15px;
+  margin: 15px;
+  background: #fff;
+} */

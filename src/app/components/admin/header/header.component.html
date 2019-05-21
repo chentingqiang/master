@@ -1,0 +1,14 @@
+<nz-page-header style="margin-top: 5px" nzBackIcon="bars" [nzTitle]="title">
+  <!-- <nz-page-header-extra>
+    <button nz-button>Operation</button>
+    <button nz-button>Operation</button>
+    <button nz-button nzType="primary">Primary</button>
+  </nz-page-header-extra> -->
+  <nz-breadcrumb nz-page-header-breadcrumb>
+    <nz-breadcrumb-item>
+      <a routerLink='/admin/start'><i nz-icon nzType="home" nzTheme="outline"></i></a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item *ngFor="let item of breadcrumb">{{item}}</nz-breadcrumb-item>
+  </nz-breadcrumb>
+</nz-page-header>
+<!-- <nz-breadcrumb [nzAutoGenerate]="true"></nz-breadcrumb> -->

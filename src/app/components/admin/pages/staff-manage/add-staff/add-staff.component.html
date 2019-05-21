@@ -1,0 +1,60 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left">新增员工</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body text-center" *ngIf="!loadedFlag">
+    <div class="loading-wrapper">
+        <nz-spin [nzTip]="'Loading...'" nzSimple></nz-spin>
+    </div>
+</div>
+<div class="modal-body" *ngIf="loadedFlag">
+    <table class="table table-condensed text-right" id="search-head">
+        <tr>
+            <td class="wid-fix"><label for="account">员工账号：</label></td>
+            <td><input type="text" class="form-control" id="account" placeholder="请输入员工账号" [(ngModel)]="account"
+                    name="account"></td>
+        </tr>
+        <tr>
+            <td><label for="password">登录密码：</label></td>
+            <td><input type="password" class="form-control" id="password" placeholder="请输入密码" [(ngModel)]="password"
+                    name="password"></td>
+        </tr>
+        <tr>
+            <td><label for="confirmpass">确认密码：</label></td>
+            <td><input type="password" class="form-control" id="confirmpass" placeholder="确认密码"
+                    [(ngModel)]="confirmpass" name="confirmpass"></td>
+        </tr>
+        <tr>
+            <td><label for="name">员工姓名：</label></td>
+            <td><input type="text" class="form-control" id="name" placeholder="请输入员工姓名" [(ngModel)]="name" name="name">
+            </td>
+        </tr>
+        <tr>
+            <td><label for="email">邮箱：</label></td>
+            <td><input type="text" class="form-control" id="email" placeholder="请输入邮箱" [(ngModel)]="email" name="email">
+            </td>
+        </tr>
+        <tr>
+            <td><label for="telephone">电话：</label></td>
+            <td><input type="text" class="form-control" id="telephone" placeholder="请输入电话号" [(ngModel)]="telephone"
+                    name="telephone"></td>
+        </tr>
+        <tr>
+            <td><label for="userRoleId">角色：</label></td>
+            <td class="text-center">
+                <!-- <div class="checkbox-group" id="c_role">
+                    <label class="checkbox-inline" *ngFor="let item of roleLists">
+                        <input type="checkbox" name="edit_roles" value="{{item.id}}">{{item.roleName}}
+                    </label>
+                </div> -->
+                <nz-checkbox-group [(ngModel)]="roleLists" name="add_role" style="line-height: 34px;">
+                </nz-checkbox-group>
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="modal-footer btn_center">
+    <button type="button" class="btn btn-primary" (click)="addStaff()">提交</button>
+</div>

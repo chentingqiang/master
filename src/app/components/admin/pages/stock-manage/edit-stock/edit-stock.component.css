@@ -1,0 +1,7 @@
+.fix-select select{
+    width: 50%;
+    display: inline-block;
+}
+.wid-fix{
+    width: 20%;
+}

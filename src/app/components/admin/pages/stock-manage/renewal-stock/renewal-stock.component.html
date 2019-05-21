@@ -1,0 +1,79 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">仓库续租</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body text-center" *ngIf="!(loadedFlag && loadedFlag1)">
+  <div class="loading-wrapper">
+    <nz-spin [nzTip]="'Loading...'" nzSimple></nz-spin>
+  </div>
+</div>
+<div class="modal-body" *ngIf="loadedFlag && loadedFlag1">
+  <table class="table text-right" id="search-head">
+    <tr>
+      <td class="wid-fix"><label>仓库编号：</label></td>
+      <td nzAlign="center">
+        <span class="static-td">{{list.warehouseNumber}}</span>
+      </td>
+    </tr>
+    <tr>
+      <td><label>仓库名称：</label></td>
+      <td nzAlign="center">
+        <span class="static-td">{{list.warehouseName}}</span>
+      </td>
+    </tr>
+    <tr>
+      <td><label for="province_id">仓库地址：</label></td>
+      <td nzAlign="center">
+        <span class="static-td">{{provinceMap.get(list.provinceId)}}&nbsp;{{cityMap.get(list.cityId)}}</span>
+      </td>
+    </tr>
+    <tr>
+      <td><label>详细地址：</label></td>
+      <td nzAlign="center">
+        <span class="static-td">{{list.address}}</span>
+      </td>
+    </tr>
+    <tr>
+      <td><label>租赁起止时间：</label></td>
+      <td nzAlign="center">
+        <span class="static-td">{{rentTime}}</span>
+      </td>
+    </tr>
+    <tr>
+      <td><label>续租日期：</label></td>
+      <td>
+        <nz-date-picker [nzDisabledDate]="disabledDate" [(ngModel)]="moreTime" name="moreTime"
+          (ngModelChange)="countDays($event)"></nz-date-picker>
+      </td>
+    </tr>
+    <tr>
+      <td><label>续租天数：</label></td>
+      <td nzAlign="center">
+        <span class="static-td">{{days}} 天</span>
+      </td>
+    </tr>
+    <tr>
+      <td><label>仓库面积：</label></td>
+      <td nzAlign="center">
+        <span class="static-td">{{list.area}} ㎡</span>
+      </td>
+    </tr>
+    <tr>
+      <td><label>仓库类型：</label></td>
+      <td nzAlign="center">
+        <span class="static-td">{{stockTypeMap.get(list.warehouseType)}}</span>
+      </td>
+    </tr>
+    <tr>
+      <td><label>备注：</label></td>
+      <td nzAlign="center">
+        <span class="static-td">{{list.description}}</span>
+      </td>
+    </tr>
+  </table>
+</div>
+<div class="modal-footer btn_center">
+  <button type="button" class="btn btn-primary" (click)="renewalStock()">提交</button>
+</div>
